@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Document</title>
+
+    <style>
+        /* ******* */
+        /* 通用項目 */
+        /* ******* */
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-size: 18px;
+        }
+
+        ul {
+            margin: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+
+        /* ************** */
+        /* 自定義Bootstrap */
+        /* ************** */
+        .border {
+            border: 1px solid black;
+        }
+
+        .bg-black {
+            background-color: black;
+        }
+
+        .bg-theme {
+            background-color: #721F6E;
+        }
+
+        .w-icon {
+            width: 45px;
+        }
+
+        .w-100px {
+            width: 100px;
+        }
+
+        .h-100px {
+            height: 100px;
+        }
+
+        .h-230px {
+            height: 230px;
+        }
+
+        .obj-cover {
+            object-fit: cover;
+        }
+
+        .overflow-hidden {
+            overflow: hidden;
+        }
+
+        .flex-1 {
+            flex: 1;
+        }
+
+        .flex-2 {
+            flex: 2;
+        }
+
+        .f-g-1 {
+            flex-grow: 1;
+        }
+
+        .text-big {
+            font-size: 1.2rem;
+        }
+
+        .text-small {
+            font-size: 0.8rem;
+        }
+
+        .text-bold {
+            font-weight: bold;
+        }
+
+        .text-theme {
+            color: white;
+        }
+
+        .color-gray {
+            color: gray;
+        }
+
+        .color-theme {
+            color: #721F6E;
+        }
+
+
+        /* ******* */
+        /* 群組物件 */
+        /* ******* */
+        .container span.title {
+            border-radius: 5px;
+            padding: 2px 5px;
+            font-size: 1.2rem;
+            background-color: #a963bf;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .container-box {
+            margin: 5px;
+            border-left: 3px solid #996ba7;
+            padding-left: 5px;
+        }
+
+        .withdot {
+            padding-left: 20px;
+        }
+
+        .withdot>li {
+            list-style: inside;
+        }
+
+        li.non-dot {
+            list-style: none !important;
+            padding-left: 20px;
+        }
+
+        ul.my-hashtags {
+            display: flex;
+        }
+
+        ul.my-hashtags>li {
+            margin: 0.25rem 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background-color: #f1cffc;
+            color: #721F6E;
+            font-weight: bold;
+            border-radius: 1rem;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="bg-theme ">
+        <div class="container  mb-3">
+            <div class="d-flex justify-content-between align-items-center py-2">
+                <div class=" col-9">
+                    <h2 class="py-3 my-3 border-bottom text-theme text-bold">李淳嘉</h2>
+
+                    <ul class="d-flex align-items-center text-theme">
+                        <li class="f-g-1 text-big text-bold">應徵職位：全端工程師</li>
+                        <li class="f-g-1 pl-3 border-left te">
+                            <div class="social-icons d-inline">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            0983-161-772
+                        </li>
+                        <li class="f-g-1 pl-3 border-left">
+                            <div class="social-icons d-inline">
+                                <i class="far fa-envelope"></i>
+                            </div>
+                            yldeniel306@gmail.com
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-3 h-230px overflow-hidden">
+                    <img class="w-100"
+                        src="https://scontent.fkhh2-1.fna.fbcdn.net/v/t1.15752-9/p1080x2048/270346036_1453360115057950_9093750067683122766_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=ae9488&_nc_ohc=78qbOiFOBtcAX9ZifyQ&_nc_oc=AQk72rpquL6-YLeeug9Kirei5rxga7FO4KUqzo8C7DcAppwqoOxhoolSmM3vbCg0941oCVwuWj_BzyqGjG7FxWZQ&_nc_ht=scontent.fkhh2-1.fna&oh=03_AVLpvcldLEw7nZ4px68LxEOCXC6Hr884FmhAvkbUe9c-4w&oe=62053B21"
+                        alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container ">
+
+
+
+        <div class=" mb-3">
+            <span class="title">學習經歷</span>
+            <div class="container-box d-flex">
+                <div class="p-3">
+                    <img class="w-icon" src="https://images.chinatimes.com/newsphoto/2016-12-11/900/N12A00_P_02_02.jpg"
+                        alt="">
+                </div>
+                <div>
+                    <div class="border-bottom color-gray">
+                        2015 - 2020
+                    </div>
+                    <div class="text-big text-bold">
+                        國立清華大學 工程與系統科學系
+                    </div>
+                    <ul class="ml-3">
+                        <li>主修：電子專長核能應用領域</li>
+                        <li>輔修：數學系純數組</li>
+                        <li>學程：中等教育學程數學科</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class=" mb-3">
+            <span class="title">技能培養</span>
+
+            <div class="container-box d-flex">
+                <div class="p-3">
+                    <img class="w-icon"
+                        src="https://img.technews.tw/wp-content/uploads/2015/11/Institute_for_Information_Industry.svg_-624x545.png"
+                        alt="">
+                </div>
+                <div>
+                    <div class="border-bottom color-gray">
+                        2021/11 - 迄今
+                    </div>
+                    <div class="text-big text-bold">
+                        資策會 全端開發工程師就業養成班(546小時)
+                    </div>
+                    <div class="ml-3">
+                        <div>培訓課程：</div>
+                        <div class="pl-2">C#、SQL、HTML/CSS、JapaScript/jQuery、ASP.NET MVC、ADO.NET、Azure、Git</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class=" mb-3">
+            <span class="title">技能</span>
+            <div class="container-box d-flex">
+                <div class="f-g-1 mx-3">
+                    <div class="text-bold border-bottom">程式設計</div>
+                    <ul class="withdot">
+                        <li>HTML5/CSS3</li>
+                        <li>Bootstrap</li>
+                        <li>JavaScript</li>
+                        <li>jQuery</li>
+                        <li>C#</li>
+                        <li>C++</li>
+                        <li>Python</li>
+                        <li>MATLAB</li>
+
+                    </ul>
+                </div>
+                <div class="f-g-1 mx-3">
+                    <div class="text-bold border-bottom">開發工具</div>
+                    <ul class="withdot">
+                        <li>Visual Studio Code</li>
+                        <li>Visual Studio</li>
+                        <li>Spyder</li>
+                    </ul>
+                </div>
+                <div class="f-g-1 mx-3">
+                    <div class="text-bold border-bottom">其他</div>
+                    <ul class="withdot">
+                        <li>Convolutional Neural Network</li>
+                        <li>中等教師資格檢定</li>
+                        <li class="mt-2 color-gray" style="list-style: none;">自主學習項目：</li>
+                        <li>LeetCode Problems Solved: 171</li>
+                        <li>Excel VBA</li>
+                        <li>Requests/Beautifulsoup</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class=" mb-3">
+            <span class="title">工作經歷</span>
+
+            <div class="container-box">
+                <div class="d-flex">
+                    <div class="px-4">
+                        <div class="text-bold text-big">製程工程師</div>
+                        <div class="color-gray text-small">2020/11 - 2021/5</div>
+                        <div class="text-bold color-theme">勝麗國際</div>
+                    </div>
+                    <div class="col-9 border-left">
+                        工程實驗，負責製程參數實驗、制訂與修訂。<br>
+                        掌控產品良率及精度。<br>
+                        監控產品規格。<br>
+                        規劃產品製造流程並提出改善的方案。
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class=" mb-3">
+            <span class="title">個人特色與簡介</span>
+            <div class="container-box px-4 pb-2">
+                <ul class="my-hashtags mb-2 border-bottom">
+                    <li>熱衷學習</li>
+                    <li>勇於嘗試</li>
+                    <li>積極樂觀</li>
+                    <li>教學相長</li>
+                </ul>
+                <ul class="withdot pl-3">
+                    <li>於勝麗國際擔任製程工程師時，為了增進工作效率自學ExcelVBA進行跨檔案資料整理。</li>
+                    <li>基於個人興趣自主學習爬蟲技術爬取網路資源、利用HTML/JavaScript/JSON製做圖片管理系統。</li>
+                    <li>大學時期額外修習教育學程，熟悉學習歷程及課程規劃，擅長學習新知識、技能。</li>
+                    <li>時間充裕時喜歡自主進行各種嘗試與實驗促進自己的理解程度；</li>
+                    <li class="non-dot">團隊學習時會勇於提出自己困惑的部分向大家請教學習！</li>
+                    <li>曾經修習輔導原理、團體輔導，經常利用閒遐之餘研讀心理學與諮商技術並努力融入生活。</li>
+                    <li>面對挫折時能自行調適，也會試著協助引導同伴們調整心理狀態、重新聚焦目標。</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
