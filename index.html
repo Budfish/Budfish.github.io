@@ -31,25 +31,32 @@
 
 <body>
 
-
-    <div id="field" class="border">
-        <div id="character" class="char"></div>
+    <div class="d-flex justify-content-center mt-100px">
+        <div id="field" class="border">
+            <span class="tree"></span>
+            <span class="tree"></span>
+            <span class="tree"></span>
+            <div id="character" class="char"></div>
+        </div>
     </div>
 
-
     <script>
-        const characterConst = {
-            width: 55,
-            height: 40,
-        };
-        let character = new ObjCharacter();
+
+        const character = new ObjCharacter();
+        let direction = 'n';
+        const treePosition = [[3, 3], [2, 5], [7, 8]];
+        $('.tree').each((ind, elm) => {
+            setTreePositioin(elm, treePosition[ind][0], treePosition[ind][1]);
+        });
+
+        character.move(direction);
 
         $('#character').on('click', event => {
-            character.move();
+            character.move('n');
         });
         $(window).on('keydown', e => {
             console.log(e.keyCode);
-            let direction = '';
+            direction = '';
             switch (e.keyCode) {
                 case 37:
                     direction = 'l'
@@ -64,9 +71,38 @@
                     direction = 'd'
                     break;
             }
-            character.move(direction);
-
         });
+
+        fram_move();
+        function fram_move() {
+            varifyBlocked();
+            if (direction)
+                character.move(direction);
+            direction = '';
+            setTimeout(fram_move, 100);
+        }
+
+        function varifyBlocked() {
+            let curpos = [character.x, character.y];
+            for (let i in treePosition) {
+                let pos = treePosition[i];
+                if (pos[0] == character.x && pos[1] == character.y && direction == 'u') {
+                    direction = 'n';
+                    return;
+                }
+                if (pos[0] == character.x && pos[1] == character.y - 1 && direction == 'd') {
+                    direction = 'n';
+                    return;
+                }
+            }
+        }
+        function setTreePositioin(tree, x, y) {
+            $(tree).css({
+                'left': 55 * x,
+                'bottom': 22 + 5 + 15 + 30 * y,
+                'z-index': 10 - y,
+            });
+        }
 
 
     </script>

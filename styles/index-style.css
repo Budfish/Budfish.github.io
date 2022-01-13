@@ -1,10 +1,13 @@
+/* ******* */
+/* 角色相關 */
+/* ******* */
 #character{
     width:55px;
     height:40px;
     background-color: rgb(0, 255, 179);
     position: absolute;
-    left:0;
-    bottom:0;
+    left: 280px;
+    bottom: 35px;
     border-radius: 40px 40px 20px 20px ;
     border: 2px solid black;
     cursor:pointer;
@@ -31,7 +34,54 @@
     border-radius: 50%;
 }
 
+
+/* ******* */
+/* 場景相關 */
+/* ******* */
+
+/* 背景 */
 #field{
     position:relative;
-    height:300px;
+    background-color: rgb(209, 255, 163);
+    width: 615px;
+    height: 330px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+}
+body{
+    background-color: rgb(212, 255, 255);
+}
+
+/* 地圖物件 */
+.tree{
+    position:absolute;
+    border-bottom: 80px solid black;
+    border-right: 30px solid transparent;
+    border-left:30px solid transparent;
+    bottom: 37px; /* 22+15+30*0 */
+    left: 0px; /* 55*0 */
+    width:0;
+    height:0;
+}
+.tree::before{
+    content:"";
+    position:absolute;
+    box-sizing: content-box;
+    border-bottom: 70px solid green;
+    border-right: 25px solid transparent;
+    border-left: 25px solid transparent;
+    left: -25px;
+    top: 7px;
+    width:0;
+    height:0;
+}
+.tree::after{
+    content:"";
+    position:absolute;
+    border: 3px solid black;
+    border-top: none;
+    left:-10px;
+    top:80px;
+    width:20px;
+    height:22px;
+    background-color: brown;
 }
