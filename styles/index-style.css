@@ -3,7 +3,12 @@
     height:40px;
     background-color: rgb(0, 255, 179);
     position: absolute;
+    left:0;
+    bottom:0;
     border-radius: 40px 40px 20px 20px ;
+    border: 2px solid black;
+    cursor:pointer;
+    transition: height 0.25s, left 0.8s, bottom 0.8s;
 }
 #character::after{
     content:"";
@@ -25,10 +30,8 @@
     background-color: black;
     border-radius: 50%;
 }
-.char-link>#character{
-    transform: translateX(-50%);
-}
 
 #field{
     position:relative;
+    height:300px;
 }
