@@ -40,15 +40,16 @@
 /* ******* */
 
 /* 背景 */
-#field{
+body{
+    background-color: rgb(212, 255, 255);
+}
+.field{
     position:relative;
     background-color: rgb(209, 255, 163);
     width: 615px;
     height: 330px;
     box-shadow: 2px 2px 5px rgba(0,0,0,.5);
-}
-body{
-    background-color: rgb(212, 255, 255);
+    border: 2px solid black;
 }
 
 /* 地圖物件 */
@@ -84,4 +85,36 @@ body{
     width:20px;
     height:22px;
     background-color: brown;
+}
+
+.hole{
+    position: absolute;
+    height:30px;
+    width:60px;
+    background-color: rgb(212, 255, 255);
+    left:5px;
+    bottom:0px;
+    overflow: hidden;
+}
+.hole::after{
+    content: "";
+    display: block;
+    box-sizing: content-box;
+    height:30px;
+    width:60px;
+    position: absolute;
+    top:-20px;
+    left:-20px;
+    border: 20px solid rgb(209, 255, 163);
+    border-radius: 50%;
+    z-index: 20;
+}
+.hole::before{
+    content: "";
+    position: absolute;
+    height:30px;
+    width:60px;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,.5) ;
+    border-radius: 50%;
+    border:2px solid black;
 }

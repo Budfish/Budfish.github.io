@@ -32,12 +32,14 @@
 <body>
 
     <div class="d-flex justify-content-center mt-100px">
-        <div id="field" class="border">
-            <span class="tree"></span>
-            <span class="tree"></span>
-            <span class="tree"></span>
+        <div class="field">
+            <div class="hole"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
             <div id="character" class="char"></div>
         </div>
+
     </div>
 
     <script>
@@ -48,6 +50,7 @@
         $('.tree').each((ind, elm) => {
             setTreePositioin(elm, treePosition[ind][0], treePosition[ind][1]);
         });
+        setHolePosition($('.hole'), 5, 4);
 
         character.move(direction);
 
@@ -98,10 +101,21 @@
         }
         function setTreePositioin(tree, x, y) {
             $(tree).css({
-                'left': 55 * x,
+                'left': 3 + 55 * x,
                 'bottom': 22 + 5 + 15 + 30 * y,
                 'z-index': 10 - y,
             });
+        }
+        function setHolePosition(hole, x, y) {
+            $(hole).css({
+                'left': 2.5 + 55 * x,
+                'bottom': 30 * y,
+                'z-index': 10 - y,
+            });
+        }
+
+        function varifyDrop() {
+
         }
 
 
