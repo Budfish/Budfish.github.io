@@ -92,7 +92,7 @@ $(window).on('keydown', function (event) {
                 return;
             } else if (char2.points >= 3) {
                 setTimeout(() => {
-                    $('#theMessage').html(`<span style="color:red">Player1</span> wins!`);
+                    $('#theMessage').html(`<span style="color:red">Player2</span> wins!`);
                     gameOver();
                 }, 1200);
                 return;
