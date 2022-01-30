@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="initStyle.css">
+    <link rel="stylesheet" href="/style/woodcutterStyle.css">
 
     <title>WoodCutter</title>
 
@@ -15,100 +15,78 @@
 
 <body>
 
-    <div class="playerArea m-center">
-        <div class="scoreBoard m-center">
-            <span id="score1" class="score">0</span>
-        </div>
-        <div class="playArea m-center">
-            <div id="leftArea" class="standArea">
-                <div id="char1" class="character left">
-                    <div class="head bcc-blue"></div>
-                    <div class="body bcc-blue"></div>
-                    <div class="axPosition">
-                        <div class="ax"></div>
+    <div id="theMessage" class="messageBox"></div>
+    <div id="playAgainBox" class="playAgainBox hide">
+        <div id="playAgain">Play Again</div>
+    </div>
+    <div class="gameOutline">
+        <div id="player1Area" class="playerArea">
+            <div class="scoreBoard m-center">
+                <div class="boardInside m-center">
+                    <div id="char1Light" class="wins">
+                        <div class="winsSign"></div>
+                        <div class="winsSign"></div>
+                        <div class="winsSign"></div>
                     </div>
-                    <div class="grave"></div>
+                    <div id="score1" class="score">0</div>
                 </div>
             </div>
-            <div class="treeArea">
-                <div id="tree1" class="tree">
-                    <!-- <div class="block right"></div>
-                <div class="block left"></div>
-                <div class="block "></div>
-                <div class="block right"></div>
-                <div class="block "></div> -->
+            <div id="playArea1" class="playArea m-center">
+                <div id="leftArea" class="standArea left">
+                    <div id="char1" class="character left">
+                        <div class="head bcc-blue"></div>
+                        <div class="body bcc-blue"></div>
+                        <div class="axPosition">
+                            <div class="ax"></div>
+                        </div>
+                        <div class="grave"></div>
+                    </div>
+                </div>
+                <div class="treeArea">
+                    <div id="tree1" class="tree">
+                    </div>
+                </div>
+                <div id="rightArea" class="standArea right">
                 </div>
             </div>
-            <div id="rightArea" class="standArea">
+        </div>
+
+        <div id="player2Area" class="playerArea">
+            <div class="scoreBoard m-center">
+                <div class="boardInside m-center">
+                    <div id="char2Light" class="wins">
+                        <div class="winsSign"></div>
+                        <div class="winsSign"></div>
+                        <div class="winsSign"></div>
+                    </div>
+                    <div id="score2" class="score">0</div>
+                </div>
+            </div>
+            <div id="playArea2" class="playArea m-center">
+                <div id="leftArea" class="standArea left">
+                    <div id="char2" class="character left">
+                        <div class="head bcc-red"></div>
+                        <div class="body bcc-red"></div>
+                        <div class="axPosition">
+                            <div class="ax"></div>
+                        </div>
+                        <div class="grave"></div>
+                    </div>
+                </div>
+                <div class="treeArea">
+                    <div id="tree2" class="tree">
+                    </div>
+                </div>
+                <div id="rightArea" class="standArea right">
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="grass">
+    </div>
+
 </body>
-<script>
-    let treeArray = [0];
-    for (let i = 0; i < 200; i++) {
-        treeArray.push(parseInt(Math.random() * 3));
-    }
-    function charHit() {
-        setTimeout(function () {
-            $('.axPosition').addClass('hit');
-            setTimeout(() => {
-                $('.axPosition').removeClass('hit');
-            }, 100);
-        }, 50);
-    }
-    function treeObj(tree) {
-        thisTree = this;
-        this.htmlElm = tree;
-        this.height = 0;
-        this.getCurrent = function () {
-            tree.html("");
-            for (let i = 4; i >= 0; i--) {
-                switch (treeArray[thisTree.height + i]) {
-                    case 0:
-                        tree.append('<div class="block "></div>');
-                        break;
-                    case 1:
-                        tree.append('<div class="block left"></div>');
-                        break;
-                    case 2:
-                        tree.append('<div class="block right"></div>');
-                        break;
-
-                }
-            }
-        }
-    }
-
-    let tree1 = new treeObj($('#tree1'));
-    tree1.getCurrent();
-
-    let char1Dead = false;
-    $(window).on('keydown', function (event) {
-        //console.log(event.keyCode);
-        if (!char1Dead) {
-            if (event.keyCode == 37) {
-                $('#char1').addClass('left');
-                $('#leftArea').append($('#char1'));
-                if (treeArray[tree1.height + 1] == 1) char1Dead = true;
-            }
-            if (event.keyCode == 39) {
-                $('#char1').removeClass('left');
-                $('#rightArea').append($('#char1'));
-                if (treeArray[tree1.height + 1] == 2) char1Dead = true;
-            }
-            if (char1Dead) {
-                $('#char1').addClass('dead');
-            } else {
-                charHit();
-            }
-
-            tree1.height++;
-            tree1.getCurrent();
-            $('#score1').html(tree1.height);
-        }
-
-    });
-</script>
+<script src="/scripts/woodcutterScript.js"></script>
 
 </html>
