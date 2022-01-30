@@ -1,0 +1,219 @@
+/***********/
+/* 通用項目 */
+/***********/
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.bcc-blue{
+    background-color: blue;
+}
+.bcc-black{
+    background-color: black;
+}
+.m-center{
+    margin:0 auto;
+}
+
+
+/*********/
+/* 角色區 */
+/*********/
+.character{
+    position:relative;
+    width:4rem;
+    height:8rem;
+
+    z-index: 10;
+}
+.character.left{
+    transform: scaleX(-1);
+}
+.character>.head{
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 3px solid black;
+    
+    z-index: 2;
+}
+.character>.body{
+    position:absolute;
+    width: 3.5rem;
+    height: 4rem;
+    border-radius: 2rem 2rem 1rem 1rem /2rem 2rem 3rem 3rem;
+    border: 3px solid black;
+
+    top:2rem;
+    left:-.25rem;
+    z-index: 1;
+}
+.character>.body::before{
+    content:"";
+    position: absolute;
+    width:5px;
+    height:2rem;
+    background-color: black;
+
+    top: calc(4rem - 3px);
+    left: 0.8rem;
+    z-index: 0;
+}
+.character>.body::after{
+    content:"";
+    position: absolute;
+    width:5px;
+    height:2rem;
+    background-color: black;
+
+    top: calc(4rem - 3px);
+    right: 0.8rem;
+    z-index: 0;
+}
+.axPosition>.ax{
+    position: absolute;
+    box-sizing: content-box;
+    height:2rem;
+    border:1rem solid transparent;
+    border-right:2.5rem solid black;
+    top:-5rem;
+}
+.axPosition>.ax::before{
+    content: "";
+    position: absolute;
+    box-sizing: content-box;
+    height:1.8rem;
+    border:0.9rem solid transparent;
+    border-right:2.25rem solid silver;
+    left: -.8rem;
+    top: -.8rem;
+}
+.axPosition>.ax::after{
+    content: "";
+    position: absolute;
+    height: 4.5rem;
+    width: 0.4rem;
+    background-color: brown;
+    border: 2px solid black;
+
+    left:-0.2rem;
+}
+.axPosition{
+    position: absolute;
+    left:3rem;
+    top:3rem;
+    transform: rotate(0deg);
+    transition: transform 150ms, left 150ms, top 150ms;
+    z-index: 3;
+}
+.axPosition.hit{
+    left: 0rem;
+    top: 5.5rem;
+    transform: rotate(270deg);
+}
+.character>.grave{
+    display:none;
+    position: absolute;
+    width: 4.5rem;
+    height:7rem;
+    bottom:0px;
+    background-color: gray;
+    border:3px solid black;
+    border-bottom: none;
+    border-radius: 1rem 1rem 1rem 1rem/1rem 1rem 0rem 0rem;
+}
+.character>.grave::before{
+    content: "";
+    position:absolute;
+    width:3rem;
+    height:1rem;
+    border:3px solid black;
+    border-left: none;
+    border-right: none;
+    left:0.38rem;
+    top:1.5rem;
+}
+.character.dead>.grave{
+    display: block;
+}
+.character.dead *{
+    display:none;
+}
+
+
+/*********/
+/* 樹木區 */
+/*********/
+.tree{
+    position:relative;
+    width:10rem;
+    /* height:8rem; */
+}
+.tree>.block{
+    position:relative;
+    width: 10rem;
+    height:8rem;
+    background-color: rgb(134, 61, 13);
+    border:5px solid black;
+    border-top: none;
+    border-bottom: none;
+}
+.tree>.block.left::before{
+    content:"";
+    position:absolute;
+    width:8rem;
+    height:2rem;
+    background-color: rgb(134, 61, 13);
+    border:5px solid black;
+    border-right: none;
+    left:-8rem;
+    top:3rem;
+}
+.tree>.block.right::before{
+    content:"";
+    position:absolute;
+    width:8rem;
+    height:2rem;
+    background-color: rgb(134, 61, 13);
+    border:5px solid black;
+    border-left: none;
+    right:-8rem;
+    top:3rem;
+}
+
+
+
+/*********/
+/* 定位區 */
+/*********/
+.playerArea{
+    width:20rem;
+}
+.scoreBoard{
+    height:6rem;
+    width:150%;
+    transform: translateX(-15%);
+    border: 3px solid black;
+    border-top: none;
+    border-radius: 0px 0px 1rem 1rem;
+    text-align: center;
+}
+.score{
+    font-size:2rem;
+    font-weight: bold;
+}
+.playArea{
+    display:flex;
+    justify-content: center;
+    align-items: flex-end;
+    width:100%
+}
+.standArea{
+    width:4rem;
+}
+.treeArea{
+    width:10rem;
+    margin: 0 1rem;
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="initStyle.css">
+
+    <title>WoodCutter</title>
+
+</head>
+
+<body>
+
+    <div class="playerArea m-center">
+        <div class="scoreBoard m-center">
+            <span id="score1" class="score">0</span>
+        </div>
+        <div class="playArea m-center">
+            <div id="leftArea" class="standArea">
+                <div id="char1" class="character left">
+                    <div class="head bcc-blue"></div>
+                    <div class="body bcc-blue"></div>
+                    <div class="axPosition">
+                        <div class="ax"></div>
+                    </div>
+                    <div class="grave"></div>
+                </div>
+            </div>
+            <div class="treeArea">
+                <div id="tree1" class="tree">
+                    <!-- <div class="block right"></div>
+                <div class="block left"></div>
+                <div class="block "></div>
+                <div class="block right"></div>
+                <div class="block "></div> -->
+                </div>
+            </div>
+            <div id="rightArea" class="standArea">
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let treeArray = [0];
+    for (let i = 0; i < 200; i++) {
+        treeArray.push(parseInt(Math.random() * 3));
+    }
+    function charHit() {
+        setTimeout(function () {
+            $('.axPosition').addClass('hit');
+            setTimeout(() => {
+                $('.axPosition').removeClass('hit');
+            }, 100);
+        }, 50);
+    }
+    function treeObj(tree) {
+        thisTree = this;
+        this.htmlElm = tree;
+        this.height = 0;
+        this.getCurrent = function () {
+            tree.html("");
+            for (let i = 4; i >= 0; i--) {
+                switch (treeArray[thisTree.height + i]) {
+                    case 0:
+                        tree.append('<div class="block "></div>');
+                        break;
+                    case 1:
+                        tree.append('<div class="block left"></div>');
+                        break;
+                    case 2:
+                        tree.append('<div class="block right"></div>');
+                        break;
+
+                }
+            }
+        }
+    }
+
+    let tree1 = new treeObj($('#tree1'));
+    tree1.getCurrent();
+
+    let char1Dead = false;
+    $(window).on('keydown', function (event) {
+        //console.log(event.keyCode);
+        if (!char1Dead) {
+            if (event.keyCode == 37) {
+                $('#char1').addClass('left');
+                $('#leftArea').append($('#char1'));
+                if (treeArray[tree1.height + 1] == 1) char1Dead = true;
+            }
+            if (event.keyCode == 39) {
+                $('#char1').removeClass('left');
+                $('#rightArea').append($('#char1'));
+                if (treeArray[tree1.height + 1] == 2) char1Dead = true;
+            }
+            if (char1Dead) {
+                $('#char1').addClass('dead');
+            } else {
+                charHit();
+            }
+
+            tree1.height++;
+            tree1.getCurrent();
+            $('#score1').html(tree1.height);
+        }
+
+    });
+</script>
+
+</html>
