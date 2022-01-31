@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/games/style/ballbattleStyle.css">
+    <title>Ball Battle!</title>
+</head>
+
+<body>
+    <div id="container" class="container">
+        <div id="ball" class="ball">
+            <div id="ballClicker" class="ballClicker"></div>
+        </div>
+    </div>
+
+    <script>
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+        const ballDiameter = 50;
+        const ballClickSide = 100;
+        const ballDelta = (ballClickSide - ballDiameter) / 2;
+
+
+        $('#container').css({
+            'width': screenWidth - 50,
+            'height': screenHeight - 50,
+        });
+        $('#ball').css({
+            'width': ballDiameter,
+            'height': ballDiameter,
+            'left': (screenWidth - ballDiameter) / 2,
+            'top': 3 * (screenHeight - ballDiameter) / 4,
+
+        });
+        $('#ballClicker').css({
+            'width': ballClickSide,
+            'height': ballClickSide,
+            'transform': `translate(${-ballDelta}px,${-ballDelta}px)`,
+        });
+
+
+
+        $('#ballClicker').on('click', function (event) {
+
+        });
+
+        let ball = new ballObj($('#ball'));
+
+        $(window).click(function (event) {
+            ball.goto(event.clientX, event.clientY);
+        });
+
+
+        function ballObj(ball) {
+            let thisBall = this;
+            this.jq = ball;
+            this.speed = 300;
+            this.centerX = () => parseInt(ball.css('left')) + ballDiameter / 2;
+            this.centerY = () => parseInt(ball.css('top')) + ballDiameter / 2;
+            this.goto = function (x, y) {
+                let delaX = thisBall.centerX() - x;
+                let delaY = thisBall.centerY() - y;
+                let distance = Math.sqrt(delaX * delaX + delaY * delaY);
+                $('#ball').css({
+                    'left': x - ballDiameter / 2,
+                    'top': y - ballDiameter / 2,
+                    'transition-duration': `${distance / thisBall.speed}s`,
+                });
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
