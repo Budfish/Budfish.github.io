@@ -14,67 +14,13 @@
 <body>
     <div id="container" class="container">
         <div id="ball" class="ball">
-            <div id="ballClicker" class="ballClicker"></div>
+            <div class="round">
+                <div id="ballClicker" class="ballClicker"></div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const screenWidth = window.screen.width;
-        const screenHeight = window.screen.height;
-        const ballDiameter = 50;
-        const ballClickSide = 100;
-        const ballDelta = (ballClickSide - ballDiameter) / 2;
-
-
-        $('#container').css({
-            'width': screenWidth - 50,
-            'height': screenHeight - 50,
-        });
-        $('#ball').css({
-            'width': ballDiameter,
-            'height': ballDiameter,
-            'left': (screenWidth - ballDiameter) / 2,
-            'top': 3 * (screenHeight - ballDiameter) / 4,
-
-        });
-        $('#ballClicker').css({
-            'width': ballClickSide,
-            'height': ballClickSide,
-            'transform': `translate(${-ballDelta}px,${-ballDelta}px)`,
-        });
-
-
-
-        $('#ballClicker').on('click', function (event) {
-
-        });
-
-        let ball = new ballObj($('#ball'));
-
-        $(window).click(function (event) {
-            ball.goto(event.clientX, event.clientY);
-        });
-
-
-        function ballObj(ball) {
-            let thisBall = this;
-            this.jq = ball;
-            this.speed = 300;
-            this.centerX = () => parseInt(ball.css('left')) + ballDiameter / 2;
-            this.centerY = () => parseInt(ball.css('top')) + ballDiameter / 2;
-            this.goto = function (x, y) {
-                let delaX = thisBall.centerX() - x;
-                let delaY = thisBall.centerY() - y;
-                let distance = Math.sqrt(delaX * delaX + delaY * delaY);
-                $('#ball').css({
-                    'left': x - ballDiameter / 2,
-                    'top': y - ballDiameter / 2,
-                    'transition-duration': `${distance / thisBall.speed}s`,
-                });
-            }
-        }
-
-    </script>
+    <script src="/games/scripts/ballbattleScript.js"></script>
 
 </body>
 
