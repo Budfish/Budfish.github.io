@@ -1,142 +1,144 @@
-const screenWidth = window.innerWidth;
-const screenHeight = window.innerHeight;
-const screenMargin = 25;
-const fieldWidth = screenWidth - screenMargin * 2;
-const fieldHeight = screenHeight - screenMargin * 2;
-const ballDiameter = 50;
-const ballRadius = ballDiameter / 2;
-const ballClickSide = 150;
-const ballDelta = (ballClickSide - ballDiameter) / 2;
+const windowMargin = 25;
+const ballRadius = 25;
+const fieldWidth = window.innerWidth - windowMargin * 2;
+const fieldHeight = window.innerHeight - windowMargin * 2;
+const locatedWidth = fieldWidth - ballRadius * 2;
+const locatedHeight = fieldHeight - ballRadius * 2;
+const maxSpeed = 800;//800
+const initSpeed = 300;//300
+const speedSetp = 10;
+const minLocatedX = 0;
+const maxLocatedX = locatedWidth;
+const minLocatedY = -5;
+const maxLocatedY = locatedHeight - 5;
+let redWins = false;
+let blueWins = false;
 
-let ball = new ballObj($('#ball'));
+const ball = new ballObj($('#locator'));
 
 $('body').css({
-    'padding': screenMargin,
-})
-$('#container').css({
-    'width': fieldWidth,
-    'height': fieldHeight,
+    padding: windowMargin,
 });
-$('#ball').css({
-    'width': ballDiameter,
-    'height': ballDiameter,
-    'left': (screenWidth - ballDiameter) / 2,
-    'top': 3 * (screenHeight - ballDiameter) / 4,
-
+$('#field').css({
+    width: fieldWidth,
+    height: fieldHeight,
+    padding: ballRadius,
 });
-$('#ballClicker').css({
-    'width': ballClickSide,
-    'height': ballClickSide,
-    'transform': `translate(${-ballDelta}px,${-ballDelta}px)`,
+$('#locatedField').css({
+    width: locatedWidth,
+    height: locatedHeight
 });
-
-
-
-$(window).on('click', function (event) {
-});
-
-
-
-$('#ballClicker').click(function (event) {
-    let bcx = ball.centerX();
-    let bcy = ball.centerY();
-    let xlb = ballClickSide / 2;
-    let xub = screenWidth - screenMargin - ballClickSide / 2;
-    let ylb = ballClickSide / 2;
-    let yub = screenHeight - screenMargin - ballClickSide / 2;
-    if (xlb < bcx && bcx < xub && ylb < bcy && bcx < yub) {
-        console.log(ball.nextPath);
-        clearTimeout(ball.nextPath);
-
-        console.log(`click at (${event.clientX},${event.clientY})`);
-        console.log(`center: (${bcx},${bcy})`);
-
-        ball.redirect(event);
-        console.log(`direction: (${ball.directionX},${ball.directionY})`);
-        ball.bouncePosition.get();
-
-        ball.goto(ball.bouncePosition.x, ball.bouncePosition.y);
-        console.log(`bouncePosition: (${ball.bouncePosition.x},${ball.bouncePosition.y})`);
-    }
+$('#locator').css({
+    left: locatedWidth * 0.5,
+    top: locatedHeight * 0.75,
 });
 $(window).dblclick(function (event) {
     event.preventDefault();
     return false;
 });
 
+$('#touchRegion').on('click', function (event) {
+    if (!redWins && !blueWins) {
+        clearTimeout(ball.nextPath);
+        let [x, y] = coordinate(event);
+        ball.directionX = ball.getX() - x;
+        ball.directionY = ball.getY() - y;
+        //console.log(`direction(${ball.directionX},${ball.directionY})`);
+        let pos = ball.collisionPosition();
+        ball.reflectX = false;
+        ball.reflectY = false;
+        ball.autoGo(pos);
+    }
+});
 
-function ballObj(ball) {
-    let thisBall = this;
-    this.jq = ball;
-    this.speed = 300;
-    this.directionX = -1;
-    this.directionY = -1;
-    this.centerX = () => parseInt(ball.css('left')) + ballRadius;
-    this.centerY = () => parseInt(ball.css('top')) + ballRadius;
-    this.bouncePosition = new bouncePositionObj();
+
+function ballObj(locator_jq) {
+    let thisball = this;
+    this.location = locator_jq;
+    this.touchRegion = $(locator_jq.find('#touchRegion'))[0];
+    this.getX = () => parseInt(locator_jq.css('left'));
+    this.getY = () => parseInt(locator_jq.css('top'));
+    this.speed = initSpeed;
+    this.duration = 1000;
+    this.directionX = 1;
+    this.directionY = 1;
+    this.reflectX = false;
+    this.reflectY = false;
     this.nextPath = null;
-    this.goto = function (x, y) {
-        //框內座標系
-        clearTimeout(thisBall.nextPath);
-        let delaX = thisBall.centerX() - x;
-        let delaY = thisBall.centerY() - y;
-        let distance = Math.sqrt(delaX * delaX + delaY * delaY);
-        let duration = 1000 * distance / thisBall.speed;
-        $('#ball').css({
+    this.goto = function ([x, y]) {
+        clearTimeout(thisball.nextPath);
+        let centerX = thisball.getX();
+        let centerY = thisball.getY();
+        let Dx = x - centerX;
+        let Dy = y - centerY;
+        let distance = Math.sqrt(Dx * Dx + Dy * Dy);
+        thisball.duration = 1000 * distance / thisball.speed;
+        thisball.location.css({
             'left': x,
             'top': y,
-            'transition-duration': `${duration}ms`,
-        });
-
-        thisBall.nextPath = setTimeout(function () {
-            thisBall.directionX *= thisBall.bouncePosition.reflectX ? -1 : 1;
-            thisBall.directionY *= thisBall.bouncePosition.reflectY ? -1 : 1;
-            thisBall.bouncePosition.get();
-
-            thisBall.goto(thisBall.bouncePosition.x, thisBall.bouncePosition.y);
-        }, duration);
-
-        console.log(`direction:(${thisBall.directionX}, ${thisBall.directionY})`);
-        console.log(`position:(${thisBall.bouncePosition.x}, ${thisBall.bouncePosition.y})`);
-
+            'transition-duration': `${thisball.duration}ms`,
+        })
     }
-    this.redirect = e => {
-        thisBall.directionX = thisBall.centerX() + screenMargin - parseInt(e.clientX);
-        thisBall.directionY = thisBall.centerY() + screenMargin - parseInt(e.clientY);
-    }
-
-
-    function bouncePositionObj() {
-        let thisbcp = this;
-        this.x = 0;
-        this.y = 0;
-        this.reflectX = false;
-        this.reflectY = false;
-        this.get = function () {
-            let bcx = 0;
-            let bcy = 0;
-            let x = 0;
-            let y = 0;
-
-            if (thisBall.directionX < 0) x = ballRadius;
-            if (thisBall.directionX >= 0) x = fieldWidth - ballRadius;
-            if (thisBall.directionY < 0) y = ballRadius;
-            if (thisBall.directionY >= 0) y = fieldHeight - ballRadius;
-
-            bcy = thisBall.centerY() + thisBall.directionY * (x - thisBall.centerX()) / thisBall.directionX;
-            bcx = thisBall.centerX() + thisBall.directionX * (y - thisBall.centerY()) / thisBall.directionY;
-
-            if (thisBall.directionX < 0) bcx = bcx < x ? x : bcx;
-            if (thisBall.directionX >= 0) bcx = bcx > x ? x : bcx;
-            if (thisBall.directionY < 0) bcy = bcy < y ? y : bcy;
-            if (thisBall.directionY >= 0) bcy = bcy > y ? y : bcy;
-
-            thisbcp.reflectX = bcx == x ? true : false;
-            thisbcp.reflectY = bcy == y ? true : false;
-
-            thisbcp.x = bcx;
-            thisbcp.y = bcy;
+    this.collisionPosition = function () {
+        let x = minLocatedX;
+        let y = minLocatedY;
+        let ballX = thisball.getX();
+        let ballY = thisball.getY();
+        let dirX = thisball.directionX;
+        let dirY = thisball.directionY;
+        let calcX = minLocatedX;
+        let calcY = minLocatedY;
+        if (dirX >= 1 || dirX <= -1) {
+            x = dirX > minLocatedX ? maxLocatedX : minLocatedX;
+            calcY = (x - ballX) * dirY / dirX + ballY;
+            calcY = calcY < minLocatedY ? minLocatedY : calcY > maxLocatedY ? maxLocatedY : calcY;
+        } else {
+            calcX = ballX;
+            calcY = dirY < minLocatedY ? minLocatedY : maxLocatedY;
         }
+        if (dirY >= 1 || dirY <= -1) {
+            y = dirY > minLocatedY ? maxLocatedY : minLocatedY;
+            calcX = (y - ballY) * dirX / dirY + ballX;
+            calcX = calcX < minLocatedX ? minLocatedX : calcX > maxLocatedX ? maxLocatedX : calcX;
+        } else {
+            calcX = dirX < minLocatedX ? minLocatedX : maxLocatedX;
+            calcY = dirY;
+        }
+        thisball.reflectX = false;
+        thisball.reflectY = false;
+        if (calcX == minLocatedX || calcX == maxLocatedX) thisball.reflectX = true;
+        if (calcY == minLocatedY || calcY == maxLocatedY) thisball.reflectY = true;
+
+        return [calcX, calcY];
+    }
+    this.autoGo = function () {
+        //console.log('autoGO');
+        thisball.speed = thisball.speed < maxSpeed - speedSetp ? thisball.speed + speedSetp : maxSpeed;
+        thisball.directionX *= thisball.reflectX ? -1 : 1;
+        thisball.directionY *= thisball.reflectY ? -1 : 1;
+        thisball.goto(thisball.collisionPosition());
+        thisball.nextPath = setTimeout(function () {
+            varifyEnd();
+            if (!redWins && !blueWins)
+                thisball.autoGo();
+        }, thisball.duration);
+    }
+
+}
+function varifyEnd() {
+    if (ball.getY() < minLocatedY + 5) redWins = true;
+    if (ball.getY() > maxLocatedY - 5) blueWins = true;
+    if (redWins || blueWins) {
+        clearTimeout(ball.nextPath);
+        ball.location.css({
+            left: ball.getX(),
+            top: ball.getY(),
+        })
     }
 }
-
+function coordinate(event) {
+    let bias = (windowMargin + ballRadius);
+    let x = parseInt(event.clientX);
+    let y = parseInt(event.clientY);
+    return [x - bias, y - bias];
+}
