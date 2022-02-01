@@ -36,7 +36,6 @@ $(window).dblclick(function (event) {
     event.preventDefault();
     return false;
 });
-
 $('#touchRegion').on('click', function (event) {
     if (!redWins && !blueWins) {
         clearTimeout(ball.nextPath);
@@ -49,7 +48,6 @@ $('#touchRegion').on('click', function (event) {
         ball.autoGo(pos);
     }
 });
-
 
 function ballObj(locator_jq) {
     let thisball = this;
@@ -127,7 +125,7 @@ function varifyEnd() {
     if (ball.getY() < minLocatedY + 5) redWins = true;
     if (ball.getY() > maxLocatedY - 5) blueWins = true;
     if (redWins || blueWins) {
-        clearTimeout(ball.nextPath);
+        //clearTimeout(ball.nextPath);
         ball.location.css({
             left: ball.getX(),
             top: ball.getY(),
