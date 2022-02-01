@@ -21,7 +21,7 @@ body{
 #locator{
     position: relative;
     transition: top, left;
-    transition-timing-function: linear;
+    transition-timing-function: linear, linear;
     top: 0px;
     left: 0px;
 }

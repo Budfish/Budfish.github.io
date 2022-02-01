@@ -43,7 +43,6 @@ $('#touchRegion').on('click', function (event) {
         let [x, y] = coordinate(event);
         ball.directionX = ball.getX() - x;
         ball.directionY = ball.getY() - y;
-        //console.log(`direction(${ball.directionX},${ball.directionY})`);
         let pos = ball.collisionPosition();
         ball.reflectX = false;
         ball.reflectY = false;
@@ -74,9 +73,9 @@ function ballObj(locator_jq) {
         let distance = Math.sqrt(Dx * Dx + Dy * Dy);
         thisball.duration = 1000 * distance / thisball.speed;
         thisball.location.css({
-            'left': x,
-            'top': y,
-            'transition-duration': `${thisball.duration}ms`,
+            'left': x + Math.random() / 100,
+            'top': y + Math.random() / 100,
+            'transition-duration': `${thisball.duration}ms, ${thisball.duration}ms`,
         })
     }
     this.collisionPosition = function () {
@@ -94,15 +93,15 @@ function ballObj(locator_jq) {
             calcY = calcY < minLocatedY ? minLocatedY : calcY > maxLocatedY ? maxLocatedY : calcY;
         } else {
             calcX = ballX;
-            calcY = dirY < minLocatedY ? minLocatedY : maxLocatedY;
+            calcY = dirY < 0 ? minLocatedY : maxLocatedY;
         }
         if (dirY >= 1 || dirY <= -1) {
             y = dirY > minLocatedY ? maxLocatedY : minLocatedY;
             calcX = (y - ballY) * dirX / dirY + ballX;
             calcX = calcX < minLocatedX ? minLocatedX : calcX > maxLocatedX ? maxLocatedX : calcX;
         } else {
-            calcX = dirX < minLocatedX ? minLocatedX : maxLocatedX;
-            calcY = dirY;
+            calcX = dirX < 0 ? minLocatedX : maxLocatedX;
+            calcY = ballY;
         }
         thisball.reflectX = false;
         thisball.reflectY = false;
@@ -112,7 +111,6 @@ function ballObj(locator_jq) {
         return [calcX, calcY];
     }
     this.autoGo = function () {
-        //console.log('autoGO');
         thisball.speed = thisball.speed < maxSpeed - speedSetp ? thisball.speed + speedSetp : maxSpeed;
         thisball.directionX *= thisball.reflectX ? -1 : 1;
         thisball.directionY *= thisball.reflectY ? -1 : 1;
