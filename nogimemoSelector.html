@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>乃木フラ メモ</title>
+    <style>
+        .title {
+            height: 50px;
+            background-color: rgb(171, 81, 255);
+            color: white;
+            font-size: 24px;
+            width: 100%;
+        }
+
+        .centerlize {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            font-size: 20px;
+            padding-bottom: 3px;
+            border-bottom: 2px dashed gray;
+            margin-bottom: 3px;
+            text-align: center;
+        }
+
+        td,
+        th {
+            text-align: center;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+
+<body style="margin:0;padding:0;">
+    <div id="theTitle" class="title centerlize">
+        乃木フラ メモ selector
+    </div>
+    <ul id="theOptions" style="display: none;">
+    </ul>
+    <table id="theTable" style="width:90%; margin:20px auto; border-collapse: collapse;">
+    </table>
+</body>
+<script>
+    const Themes = ['ドラマ', '料理番組', 'スポーツ番組', '情報番組', 'コント番組', 'トーク番組', 'ロケ番組', 'クイズ・ゲーム', '音楽番組',];
+    const initMemo = [
+        ['C', '音楽番組', 'SSR', 4, 40,],
+        ['B', 'クイズ・ゲーム', 'SSR', 4, 40,],
+        ['A', 'ロケ番組', 'SSR', 4, 40,],
+        ['A', '音楽番組', 'SSR', 0, 40,],
+        ['D', 'トーク番組', 'SR', 3, 35,],
+        ['C', 'ロケ番組', 'SR', 3, 35,],
+        ['D', '音楽番組', 'SR', 3, 35,],
+        ['D', 'コント番組', 'SR', 3, 35,],
+        ['C', 'トーク番組', 'SR', 3, 35,],
+        ['B', 'コント番組', 'SR', 3, 35,],
+        ['A', '情報番組', 'SR', 3, 35,],
+        ['B', 'スポーツ番組', 'SR', 3, 35,],
+        ['A', 'トーク番組', 'SR', 3, 35,],
+        ['A', 'トーク番組', 'SR', 3, 35,],
+        ['B', '料理番組', 'SR', 0, 35,],
+        ['A', 'ドラマ', 'R', 2, 30,],
+        ['B', '料理番組', 'R', 2, 30,],
+        ['C', 'ロケ番組', 'R', 2, 30,],
+        ['D', '情報番組', 'R', 2, 30,],
+        ['A', 'クイズ・ゲーム', 'SSR', 0, 10,],
+        ['C', 'ドラマ', 'SR', 3, 1,],
+        ['B', 'スポーツ番組', 'SR', 3, 1,],
+        ['C', 'ドラマ', 'SSR', 0, 1,],
+        ['D', 'クイズ・ゲーム', 'SSR', 0, 1,],
+        ['D', '音楽番組', 'SSR', 0, 1,],
+    ];
+    const tableTitle = '<tr><th>Type</th><th>チーマ</th><th>Rare</th><th>開花</th><th>Lv.</th></tr>';
+    let memos = [];
+    let currType = -1;
+
+    $.each(initMemo, function (ind, elm) {
+        memos.push(new memoObj(elm));
+    })
+    $.each(Themes, function (ind, type) {
+        $('#theOptions').append(`<li id="option-${ind}" val="${ind}" >${type}</li>`);
+    })
+    $('#theTitle').on('click', function () {
+        $('#theTable').fadeOut(100, function () {
+            $('#theOptions').slideDown(300);
+        })
+    })
+    $.each(Themes, function (ind, type) {
+        $(`#option-${ind}`).on('click', function () {
+            currType = ind;
+            $('#theOptions').slideUp(200, function () {
+                showMemoOnTable(currType);
+                $('#theTable').fadeIn(100);
+            });
+        })
+    })
+
+    function memoObj(initor) {
+        let self = this;
+        this.Type = initor[0];
+        this.Theme = initor[1];
+        this.Rare = initor[2];
+        this.Flower = initor[3];
+        this.Level = initor[4];
+        this.getHTML = function () {
+            return `
+            <tr>
+                <td>${self.Type}</td>
+                <td>${self.Theme}</td>
+                <td>${self.Rare}</td>
+                <td>${self.Flower}</td>
+                <td>${self.Level}</td>
+            </tr>
+            `;
+        }
+    }
+    function showMemoOnTable(ind) {
+        $('#theTable').html(tableTitle);
+        $.each(memos, function (i, memo) {
+            if (memo.Theme == Themes[ind]) {
+
+                $('#theTable').append(memo.getHTML());
+            }
+        })
+    }
+
+</script>
+
+</html>
