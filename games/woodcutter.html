@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/games/style/woodcutterStyle.css">
+
+    <title>WoodCutter</title>
+
+</head>
+
+<body>
+
+    <div id="theMessage" class="messageBox"></div>
+    <div id="playAgainBox" class="playAgainBox hide">
+        <div id="playAgain">Play Again</div>
+    </div>
+    <div class="gameOutline">
+        <div id="player1Area" class="playerArea">
+            <div class="scoreBoard m-center">
+                <div class="boardInside m-center">
+                    <div id="char1Light" class="wins">
+                        <div class="winsSign"></div>
+                        <div class="winsSign"></div>
+                        <div class="winsSign"></div>
+                    </div>
+                    <div id="score1" class="score">0</div>
+                </div>
+            </div>
+            <div id="playArea1" class="playArea m-center">
+                <div id="leftArea" class="standArea left">
+                    <div id="char1" class="character left">
+                        <div class="head bcc-blue"></div>
+                        <div class="body bcc-blue"></div>
+                        <div class="axPosition">
+                            <div class="ax"></div>
+                        </div>
+                        <div class="grave"></div>
+                    </div>
+                </div>
+                <div class="treeArea">
+                    <div id="tree1" class="tree">
+                    </div>
+                </div>
+                <div id="rightArea" class="standArea right">
+                </div>
+            </div>
+        </div>
+
+        <div id="player2Area" class="playerArea">
+            <div class="scoreBoard m-center">
+                <div class="boardInside m-center">
+                    <div id="char2Light" class="wins">
+                        <div class="winsSign"></div>
+                        <div class="winsSign"></div>
+                        <div class="winsSign"></div>
+                    </div>
+                    <div id="score2" class="score">0</div>
+                </div>
+            </div>
+            <div id="playArea2" class="playArea m-center">
+                <div id="leftArea" class="standArea left">
+                    <div id="char2" class="character left">
+                        <div class="head bcc-red"></div>
+                        <div class="body bcc-red"></div>
+                        <div class="axPosition">
+                            <div class="ax"></div>
+                        </div>
+                        <div class="grave"></div>
+                    </div>
+                </div>
+                <div class="treeArea">
+                    <div id="tree2" class="tree">
+                    </div>
+                </div>
+                <div id="rightArea" class="standArea right">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grass">
+    </div>
+
+</body>
+<script src="/games/scripts/woodcutterScript.js"></script>
+
+</html>

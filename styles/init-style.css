@@ -1,0 +1,29 @@
+/* ******* */
+/* 通用項目 */
+/* ******* */
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+}
+
+.border{
+    border:1px solid black !important;
+}
+
+.testingbox{
+    width:100px;
+    height: 100px;
+    border: 1px solid black;
+}
+
+
+/* ************** */
+/* 自定義Bootstrap */
+/* ************** */
+.h-100px{
+    height:100px;
+}
+.mt-100px{
+    margin-top: 100px;
+}
