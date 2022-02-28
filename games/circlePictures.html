@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>preview</title>
+    <style>
+        /* 圖圈區 */
+        .outterContainer {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .innerRound {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid black;
+        }
+
+        .centerlize {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .photo {
+            border: 1px solid black;
+            background-color: blue;
+            width: 200px;
+            height: 200px;
+        }
+
+        /* 工具列 */
+        #toolNav {
+            position: fixed;
+            top: 0;
+            height: 50px;
+            width: 100vw;
+            background-color: rgba(0, 0, 0, .4);
+
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 3px 20px;
+        }
+
+        #toolNav>* {
+            margin: 0px 10px;
+        }
+
+        #hoverArea {
+            position: fixed;
+            top: 0;
+            height: 50px;
+            width: 100vw;
+        }
+
+        .toolItem {
+            background-color: white;
+            border-radius: 3px;
+            padding: 3px 15px;
+        }
+
+        .divBtn {
+            width: max-content;
+            padding: 3px 15px;
+            border: 1px solid black;
+            background-color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body style="padding:0; margin:0;">
+    <div id="hoverArea"></div>
+    <div id="toolNav" style="display: none;">
+        <div id="addCircle" class="divBtn">增加圈圈</div>
+        <div id="changeColor" class="toolItem" style="display:flex; align-items: center; cursor: pointer;">
+            <span style="margin-right:5px">更換背景顏色</span>
+            <input id="backgroundColor" type="color" value="#FFFFFF">
+        </div>
+    </div>
+
+    <div id="container" style="width:100vw; height:100vh;">
+
+    </div>
+</body>
+<script>
+    let zHeight = 1;
+    let currentCircle = 0;
+    let theCircles = [];
+
+    $('#hoverArea').on('mouseenter', function () {
+        $('#toolNav').slideDown(300);
+    });
+    $('#container').on('mouseenter', function () {
+        $('#toolNav').slideUp(300);
+    })
+    $('#backgroundColor').change(function () {
+        $('#container').css('background-color', $(this).val());
+    })
+    $('#addCircle').on('click', function () {
+        if (currentCircle < 5) {
+            theCircles.push(new circleObj(currentCircle++));
+        } else {
+            alert('付費以解鎖更多圈圈');
+            return;
+        }
+    })
+
+    function myObj(n) {
+        this.age = n;
+    }
+    function circleObj(index) {
+        let self = this;
+        this.index = index;
+        this.reader = new FileReader();
+        this.upload_file;
+        this.elements = {
+            get form() {
+                return $(`#form-${index}`);
+            },
+            get input() {
+                return $(`#input-${index}`);
+            },
+            get img() {
+                return $(`#img-${index}`);
+            }
+        };
+        this.moving = false;
+        this.x = 0;
+        this.y = 0;
+        this.z = index;
+
+        this.init = function () {
+            $('#container').append(getCircleHTML(index));
+            self.elements.input.on('click', function (e) {
+                e.preventDefault();
+            });
+            self.elements.input.change(function () {
+                self.upload_file = self.elements.input[0].files[0];
+                self.reader.readAsDataURL(self.upload_file);
+            });
+            self.reader.onload = function (e) {
+                self.elements.img.attr("src", e.target.result);
+                setTimeout(self.resize, 50);
+            }
+
+            self.elements.form.on('mousedown', function (e) {
+                self.z = zHeight++;
+                self.elements.form.css('z-index', self.z);
+                if (zHeight >= 100) resetZHeight();
+                self.x = e.clientX - parseFloat(self.elements.form.css('left'));
+                self.y = e.clientY - parseFloat(self.elements.form.css('top'));
+                self.moving = true;
+            });
+            self.elements.form.on('mousemove', function (e) {
+                if (self.moving) {
+                    self.elements.form.css({
+                        'left': e.clientX - self.x,
+                        'top': e.clientY - self.y,
+                    });
+                }
+            });
+            self.elements.form.on('mouseup', function () {
+                self.moving = false;
+            })
+
+        }
+        this.resize = function () {
+            let w = parseFloat(self.elements.img.css('width'));
+            let h = parseFloat(self.elements.img.css('height'))
+            if (w > h) {
+                self.elements.img.css({ 'width': 'auto', 'height': '100%' });
+            } else {
+                self.elements.img.css({ 'width': '100%', 'height': 'auto' });
+            }
+        }
+
+        this.init();
+    }
+    function getCircleHTML(index) {
+        return `
+            <form id="form-${index}" class="outterContainer" enctype="multipart/form-data" style="top:66px; left:${index * 20 + 10}px; z-index:${index}">
+                <div class="innerRound centerlize" style="z-index: 2; opacity: 0;">
+                    <input class="photo" type="file" id="input-${index}" />
+                </div>
+                <div class="innerRound centerlize" style="z-index: 1;">
+                    <img id="img-${index}" src="" style="object-fit:cover;" />
+                </div>
+                <div class="innerRound centerlize" style="z-index: 0; background-color:white;">
+                </div>
+            </form>
+            `;
+    }
+    function resetZHeight() {
+        let theZs = [];
+        for (let i = 0; i < theCircles.length; i++) {
+            theZs.push({ index: i, z: theCircles[i].z });
+        }
+        theZs.sort((a, b) => { return a.z - b.z });
+        for (let i = 0; i < theZs.length; i++) {
+            theCircles[theZs[i].index].z = i;
+            theCircles[theZs[i].index].elements.form.css('z-index', i);
+        }
+        zHeight = theZs.length;
+        console.log(theZs);
+    }
+</script>
+
+</html>
