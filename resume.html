@@ -18,10 +18,11 @@
             margin: 0px;
             padding: 0px;
             box-sizing: border-box;
-            font-size: 18px;
+            font-size: 24px;
         }
 
         ul {
+            list-style-position: outside;
             margin: 0;
         }
 
@@ -114,7 +115,11 @@
         /* ******* */
         /* 群組物件 */
         /* ******* */
-        .container span.title {
+        .mycontainer {
+            padding: 0 5rem;
+        }
+
+        span.title {
             border-radius: 5px;
             padding: 2px 5px;
             font-size: 1.2rem;
@@ -129,12 +134,20 @@
             padding-left: 5px;
         }
 
-        .withdot {
+        ul.withdot {
             padding-left: 20px;
         }
 
-        .withdot>li {
+        ul.withdot>li {
             list-style: inside;
+        }
+
+        ul.proj.withdot>li {
+            list-style: outside;
+        }
+
+        ul.limy-2>li {
+            margin: .5rem 0;
         }
 
         .withnumber {
@@ -167,13 +180,32 @@
             text-align: right;
             padding-right: 0.3rem;
         }
+
+        /* 經歷區 */
+        .small-link-font {
+            color: #2b8eff;
+            font-size: .8rem;
+            font-weight: 400;
+        }
+
+        /* 自傳區 */
+        #projects .imgBox {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #projects .imgBox>img {
+            width: 30%;
+            border: 2px solid gray;
+        }
     </style>
 
 </head>
 
 <body>
     <div class="bg-theme ">
-        <div class="container  mb-3">
+        <div class="mycontainer mb-3">
             <div class="d-flex justify-content-between align-items-center py-2">
                 <div class=" col-9">
                     <h2 class="py-3 my-3 border-bottom text-theme text-bold">李淳嘉</h2>
@@ -194,15 +226,16 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-3 h-230px overflow-hidden">
-                    <img class="w-100"
-                        src="https://scontent.fkhh2-1.fna.fbcdn.net/v/t1.15752-9/p1080x2048/270346036_1453360115057950_9093750067683122766_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=ae9488&_nc_ohc=78qbOiFOBtcAX9ZifyQ&_nc_oc=AQk72rpquL6-YLeeug9Kirei5rxga7FO4KUqzo8C7DcAppwqoOxhoolSmM3vbCg0941oCVwuWj_BzyqGjG7FxWZQ&_nc_ht=scontent.fkhh2-1.fna&oh=03_AVLpvcldLEw7nZ4px68LxEOCXC6Hr884FmhAvkbUe9c-4w&oe=62053B21"
-                        alt="">
+                <div class="col-3" style="object-fit: cover;">
+                    <img class="w-100" src="/images/resume.jpg" alt="">
                 </div>
             </div>
         </div>
     </div>
-    <div class="container ">
+
+
+
+    <div class="mycontainer ">
 
 
         <!-- 技能 -->
@@ -216,7 +249,7 @@
                         <li><span class="text-bold">Bootstrap</span></li>
                         <li><span class="text-bold">JavaScript</span></li>
                         <li><span class="text-bold">jQuery</span></li>
-                        <li><span class="color-gray">Ajax</span></li>
+                        <li><span class="text-bold">Ajax</span></li>
 
                     </ul>
                 </div>
@@ -254,7 +287,7 @@
                         <li class="mt-3 text-bold" style="list-style: none;">自主學習項目：</li>
                         <li class="text-bold">
                             <a href="https://leetcode.com/budfish306/" style="text-decoration: underline">LeetCode</a>
-                            Problems Solved: 178
+                            Problems Solved: 201
                         </li>
                         <li><span class="color-gray">Excel VBA</span></li>
                         <li><span class="color-gray">Requests/Beautifulsoup</span></li>
@@ -266,22 +299,27 @@
 
 
         <!-- 經歷 -->
-        <div class=" mb-3">
+        <div class=" mb-3 expArea">
             <span class="title">經歷</span>
 
             <!-- 資展國際 -->
-            <div class="container-box d-flex mb-3">
+            <div class="container-box d-flex mb-3 exp">
                 <div class="pl-3">
                     <div class="border-bottom color-gray">
-                        2021/11 - 迄今
+                        2021/10 - 2021/3
                     </div>
                     <div class="text-bold my-2">
                         <span class="text-big color-theme mr-2">資展國際</span>
-                        <span class="text-big">全端開發工程師就業養成班(546小時)</span>
+                        <span class="text-big">全端開發工程師就業養成班(552小時)</span>
 
                     </div>
+
+                    <!-- 期中專題: MyFavorPic -->
                     <div class="ml-3 mb-3">
-                        <div class="text-bold">期中專題-MyFavorPic</div>
+                        <div class="text-bold">
+                            期中專題-MyFavorPic
+                            <a href="#project-MyFavorPic" class="ml-2 small-link-font">作品介紹</a>
+                        </div>
                         <div class="pl-4">
                             <div class="mb-2">
                                 <div class="text-bold">功能簡介:</div>
@@ -293,20 +331,37 @@
                             <div class="mb-2">
                                 <div class="text-bold">使用技術:</div>
                                 <div>
-                                    前端: C# WinForm<br>
-                                    後端: C#/ ADO.NET<br>
-                                    資料庫: SQL server
+                                    <table>
+                                        <tr>
+                                            <td>前端:</td>
+                                            <td>C# WinForm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>後端:</td>
+                                            <td>C#/ ADO.NET</td>
+                                        </tr>
+                                        <tr>
+                                            <td>資料庫:</td>
+                                            <td>SQL server</td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                             <div class="mb-2">
                                 <div class="text-bold">負責項目:</div>
-                                <div>所有功能設計與實現。</div>
+                                <div>
+                                    <span class="text-important">所有功能</span>設計與實現。
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- 期末專題: 雛居廣告 -->
                     <div class="ml-3 mb-3">
-                        <div class="text-bold">期末專題-雛居廣告</div>
+                        <div class="text-bold">
+                            期末專題-雛居廣告
+                            <a href="#project-Chuju" class="ml-2 small-link-font">作品介紹</a>
+                        </div>
                         <div class="pl-4">
                             <div class="mb-2">
                                 <div class="text-bold">功能簡介:</div>
@@ -344,7 +399,15 @@
                             </div>
                             <div class="mb-2">
                                 <div class="text-bold">負責項目:</div>
-                                <div>會員系統後端功能及資料庫設計、文章頁面資料庫設計、架設雲端伺服器及雲端資料庫、專案整合以及簡易合併衝突排除。</div>
+                                <div>
+                                    <span class="text-important">專案整合</span>與開發進度管理、
+                                    會員系統<span class="text-important">全端製作</span>、
+                                    收藏與瀏覽歷史<span class="text-important">後端製作</span>、
+                                    建案搜尋系統<span class="text-important">全端製作</span>、
+                                    文章內容<span class="text-important">資料庫設計</span>、
+                                    關於雛居<span class="text-important">前端製作</span>、
+                                    架設<span class="text-important">雲端</span>伺服器與資料庫
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -411,25 +474,114 @@
         <div class=" mb-3">
             <span class="title">自傳</span>
             <div class="container-box px-4 pb-2">
+                <!--
                 <ul class="my-hashtags mb-2 border-bottom">
                     <li>熱衷學習</li>
                     <li>勇於嘗試</li>
                     <li>積極樂觀</li>
                     <li>教學相長</li>
                 </ul>
-                <ul class="withdot pl-3">
-                    <li>於勝麗國際擔任製程工程師時，為了增進工作效率自學ExcelVBA進行跨檔案資料整理。</li>
-                    <li>基於個人興趣自主學習爬蟲技術爬取網路資源、利用HTML/JavaScript/JSON製做圖片管理系統。</li>
-                    <li>大學時期額外修習教育學程，熟悉學習歷程及課程規劃，擅長學習新知識、技能。</li>
-                    <li>時間充裕時喜歡自主進行各種嘗試與實驗促進自己的理解程度；</li>
-                    <li class="non-dot">團隊學習時會勇於提出自己困惑的部分向大家請教學習！</li>
-                    <li>曾經修習輔導原理、團體輔導，經常利用閒遐之餘研讀心理學與諮商技術並努力融入生活。</li>
-                    <li>面對挫折時能自行調適，也會試著協助引導同伴們調整心理狀態、重新聚焦目標。</li>
-                </ul>
+                -->
+                <div>
+                    <div class="text-bold">求學經歷</div>
+                    <p class="pl-3">
+                        大學時期主修電子與核能工程，並於數據分析實驗室研究深度學習參數優化。因應家人期許修習中等教育學程、輔修數學系，並於大學畢業後尋找數學代理教師的職務。由於近年少子化的趨勢、教師缺額稀少，沒能在中小學校開學前取得教職。因此同年9月後將目標轉回與本科系較為相關的製程工程師。
+                    </p>
+                </div>
+                <div>
+                    <div class="text-bold">勝麗國際—製程工程師</div>
+                    <p class="pl-3">
+                        應徵麗製程工程師一職時，負責後製程液態封狀站(點膠站)。原先預計的工作內容主要為：封裝膠材性質數據分析、建立膠材容積分析模型等分析型工作。由於當時勝麗剛被同欣電子併購，公司內部人力流動較大，並且失效解決的優先度高於改良性的工作，因此進入勝麗後主要的工作內容為：失效數據蒐集以及失效模式分析。此二項工作內容需大量使用顯微鏡並高度消耗視力。雖然期間培養了許多能力，諸如：設計實驗、尋找問題、提出改善方案以及部門間溝通等，由於工作內容與預期有所落差，一直希望能轉換跑道。基於自身的責任，我一直到後製程部門招募到新的副理接手點膠站並完成交接後，才進入下一個階段。
+                    </p>
+                </div>
+                <div>
+                    <div class="text-bold">資展國際—全端工程養成班</div>
+                    <p class="pl-3">
+                        離開勝麗國際後規劃要報考數學所，增強自己的競爭力。其過程中因為自己對程式設計的興趣，時常在閒遐之餘透過網路自學網頁設計。在一次與親友分享的過程中認識到資展國際的課程。於是在經過自身的考慮和與家人的協調後，最終決定報名全端養成班往資訊工程發展。因為本身喜歡邏輯思考，所以在受訓期間除了複習課程也經常利用空閒的時間上LeetCode解題，精進自己的程式能力與邏輯思維。
+                    </p>
+                </div>
+                <div>
+                    <div class="text-bold">未來展望</div>
+                    <p class="pl-3">
+                        因為在大學做專題研究時就有大量接觸程式語言，本來就對加入資訊產業有所期待。短期而言，希望在未來能夠在業界做到瞭解並熟悉整個資訊業工作形式與產業從計劃的發想、立案、執行到發佈與維護的整個流程。長遠來說，希望能在對整個資訊業界有一定程度的理解後，保持利用閒餘之餘精進自己的習慣，以世界知名的Google、Microsoft等公司為目標持續成長、持續進步。
+                    </p>
+                </div>
             </div>
         </div>
 
+
+
+        <!-- 作品集 -->
+        <div id="projects" class=" mb-3">
+            <span class="title">作品集</span>
+            <div id="project-MyFavorPic" class="container-box px-4 pb-2">
+
+                <!-- MyFavorPic -->
+                <div class="text-big text-bold">
+                    MyFavorPic
+                    <a href="https://www.youtube.com/watch?v=nLYCooE-dnk" class="small-link-font ml-2">介紹影片</a>
+                </div>
+                <ul class="proj withdot limy-2 ml-3">
+                    <li>模擬多用戶圖片共享平臺的WinForm應用程式。</li>
+                    <li>功能參考自圖片共享平臺<a href="https://www.pinterest.com/">pinterest</a>。</li>
+                    <li>使用者頁面可以上傳圖片、建立圖版(為圖片分類)、修改圖版名稱、刪除已上傳的圖片。</li>
+                    <li>點擊圖片可加入已建立的圖版或新增圖版以加入。</li>
+                    <li>利用<span class="text-important">WinForm內建控制項</span>進行排版設計。</li>
+                    <li>建立<span class="text-important">自定義C#控制項</span>以利程式碼維護並增進開發效率。</li>
+                    <li>以<span class="text-important">ADO.NET</span>進行資料庫連動。</li>
+                </ul>
+                <div class="imgBox">
+                    <img src="/images/resume/MyFavorPic_01.png" alt="">
+                    <img src="/images/resume/MyFavorPic_02.png" alt="">
+                    <img src="/images/resume/MyFavorPic_03.png" alt="">
+
+                </div>
+
+                <hr />
+
+                <!-- 雛居廣告 -->
+                <div class="text-big text-bold">
+                    雛居廣告
+                    <a href="https://www.youtube.com/watch?v=w3yBt9_x2MU" class="small-link-font ml-2">介紹影片</a>
+                </div>
+                <ul class="proj withdot limy-2 ml-3">
+                    <li>房地產代銷平臺。</li>
+                    <li>功能參考房地產代銷平<a href="https://hiyes.tw/">臺海悅廣告</a>。</li>
+                    <li>房市文章具有收藏文章、連結相關文章等功能。</li>
+                    <li>建案系統具有分頁顯示、多條件搜尋、收藏、線上預約等功能。</li>
+                    <li>會員系統具有電子郵件格式驗證、發送驗證信、忘記密碼(發送單次修改密碼連結)、記住我、拖曳檔案上傳頭貼、修改個人資料、檢視瀏覽記錄、檢視收藏文章與建案、檢視已預約之建案等功能。</li>
+                    <li>客服系統具有後臺權限設定(僅具權限者可進入後臺回覆系統)、會員與訪客識別、多線回覆等功能。</li>
+                    <li>以<span class="text-important">ASP.NET MVC</span>為架構建立網站。</li>
+                    <li>前端使用<span class="text-important">HTML/CSS/Bootstrap</span>進行排版。</li>
+                    <li>前端皆由各成員<span class="text-important">獨立切版</span>、沒有進行套版。</li>
+                    <li>房市文章以<span class="text-important">Entity Frameword</span>進行資料庫連動。</li>
+                    <li>建案搜尋及活動快報以<span class="text-important">ADO.NET</span>進行資料庫連動。</li>
+                    <li>建案搜尋系統以<span class="text-important">物件導向</span>進行設計，利用<span
+                            class="text-important">ajax</span>向伺服器取得資料。</li>
+                    <li>格式驗證使用<span class="text-important">Regular Expression</span>、信件發送使用C#中的<span
+                            class="text-important">SmtpClient</span>。</li>
+                    <li>利用<span class="text-important">github</span>進行協作。</li>
+                    <li>以<span class="text-important">Azure虛擬機</span>建立伺服器、以Azure建立<span
+                            class="text-important">雲端資料庫</span>。</li>
+                </ul>
+                <div class="imgBox">
+                    <img src="/images/resume/Chuju_01.png" alt="">
+                    <img src="/images/resume/Chuju_02.png" alt="">
+                    <img src="/images/resume/Chuju_03.png" alt="">
+
+                </div>
+
+            </div>
+        </div>
+
+
     </div>
+
+
+
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
