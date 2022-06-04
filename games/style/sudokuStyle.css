@@ -1,0 +1,32 @@
+* {
+    font-size: 8px;
+    font-family: 'Abril Fatface', cursive;
+}
+
+#main {
+    max-width: 600px;
+    max-height: 600px;
+    min-width: 300px;
+    min-height: 300px;
+    width: 80vw;
+    height: 80vw;
+    margin: 0 auto;
+    border: 3px solid black;
+    border-collapse: collapse;
+}
+
+#main tr:nth-child(3n) {
+    border-bottom: 3px solid black;
+}
+
+tr td:nth-child(3n) {
+    border-right: 3px solid black;
+}
+
+td {
+    width: 11.11%;
+    height: 11.11%;
+    text-align: center;
+    font-size: 2.5rem;
+    border: 1px solid black;
+}
