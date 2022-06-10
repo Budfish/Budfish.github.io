@@ -101,3 +101,9 @@ $(window).on('keydown', function (event) {
         $(signed[currInd++]).css({ 'background-color': 'yellow' });
     }
 });
+
+$.each(mainGrid, (ind, val) => {
+    $(val).click(e => {
+        console.log(`id:${lattices[ind].id}, \ncandidates:${lattices[ind].candidates}, \npartners:${lattices[ind].partners}`)
+    })
+})
