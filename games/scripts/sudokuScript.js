@@ -1,19 +1,33 @@
 
 let mainGrid = $('#main td');
-
+let valid = true;
 let t = 0;
-
 let unsigned = [];
 let lattices = [];
-for (let i = 0; i < 81; i++) {
-    unsigned.push(i);
-    lattices.push(new lattice(i));
-}
-while (unsigned.length > 0) {
-    lattices[unsigned[0]].assignRandom();
-    if (t++ > 1000) {
-        console.log('overloaded');
-        break;
+let signed = [];
+startNewGame();
+
+function startNewGame() {
+    valid = true;
+    t = 0;
+    unsigned = [];
+    lattices = [];
+    signed = [];
+    for (let i = 0; i < 81; i++) {
+        unsigned.push(i);
+        lattices.push(new lattice(i));
+    }
+    while (unsigned.length > 0) {
+        if (!valid) break;
+        lattices[unsigned[0]].assignRandom();
+        if (t++ > 1000) {
+            console.log('overloaded');
+            break;
+        }
+    }
+    if (!valid) {
+        console.log('false');
+        startNewGame();
     }
 }
 
@@ -38,6 +52,7 @@ function lattice(id) {
         }
     }
     this.assign = function (num) {
+        if (!valid) return;
         if (t++ > 1000) {
             console.log('overloaded');
             return;
@@ -46,6 +61,7 @@ function lattice(id) {
         this.signed = true;
         unsigned.splice(unsigned.indexOf(id), 1);
         $(mainGrid[id]).html(num);
+        signed.push(mainGrid[id]);
         for (let i = 0; i < this.partners.length; i++) {
             let pid = this.partners[i];
             let partner = lattices[pid];
@@ -54,8 +70,15 @@ function lattice(id) {
             let spliceIndex = partner.candidates.indexOf(num);
             if (spliceIndex != -1)
                 partner.candidates.splice(spliceIndex, 1);
-            if (partner.candidates.length == 1)
-                partner.assign(partner.candidates[0])
+            if (partner.candidates.length == 1) {
+                let pnum = partner.candidates[0];
+                $.each(partner.partners, (ind, ppid) => {
+                    let pp = lattices[ppid];
+                    if (pp.number == pnum)
+                        valid = false;
+                })
+                partner.assign(pnum);
+            }
         }
     }
     this.assignRandom = function () {
