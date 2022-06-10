@@ -89,3 +89,15 @@ function lattice(id) {
 
     this.getpartners();
 }
+
+let currInd = 0;
+$(window).on('keydown', function (event) {
+    if (event.keyCode == 37) {
+        if (currInd <= 0) return;
+        $(signed[--currInd]).css({ 'background-color': 'transparent' });
+    }
+    if (event.keyCode == 39) {
+        if (currInd > 80) return;
+        $(signed[currInd++]).css({ 'background-color': 'yellow' });
+    }
+});
