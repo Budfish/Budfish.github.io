@@ -1,45 +1,68 @@
 
 let mainGrid = $('#main td');
-let board = getBoard();
-console.log(board)
 
-$.each(mainGrid, (ind, elm) => {
-    $(elm).html(board[(ind / 9 | 0) + 1][ind % 9 + 1]);
-})
+let t = 0;
 
-async function getBoard() {
-    function emprow() {
-        let res = [];
-        for (let i = 0; i <= 9; i++)res.push(false);
-        return res;
+let unsigned = [];
+let lattices = [];
+for (let i = 0; i < 81; i++) {
+    unsigned.push(i);
+    lattices.push(new lattice(i));
+}
+while (unsigned.length > 0) {
+    lattices[unsigned[0]].assignRandom();
+    if (t++ > 1000) {
+        console.log('overloaded');
+        break;
     }
-    let board = [];
-    let row = [];
-    for (let i = 0; i <= 9; i++)board.push([]);
-    for (let i = 0; i <= 9; i++)board[i].push(0);
-    for (let i = 0; i <= 9; i++)row.push(emprow());
-    for (let num = 1; num <= 9; num++) {
-        //console.log(`num=${num}`)
-        let block;
-        let col = emprow();
-        for (let r = 1; r <= 9; r++) {
-            if (r % 3 == 1) block = emprow();
-            let cand = [];
-            for (let n = 1; n <= 9; n++) {
-                if (!row[r][n] && !col[n] && !block[n]) cand.push(n);
-            }
-            let ind = Math.floor(Math.random() * cand.length);
-            let pos = cand[ind];
-            //console.log(`pos=${pos}, cand:${cand}`)
-            board[r][pos] = num;
-            row[r][pos] = true;
-            col[pos] = true;
-            for (let j = 1; j <= 3; j++) {
-                block[((pos - 1) / 3 | 0) * 3 + j] = true;
-            }
-            $(mainGrid[(r - 1) * 9 + pos - 1]).html(num);
-            await new Promise(r => setTimeout(r, 50));
+}
+
+function lattice(id) {
+    this.id = id;
+    this.signed = false;
+    this.number = 0;
+    this.candidates = [1, 2, 3, 4, 5, 6, 7, 8, 9,];
+    this.partners = [];
+    this.getpartners = function () {
+        this.partners = [];
+        let rowhead = (id / 9 | 0) * 9;
+        let colhead = id % 9;
+        let blkhead = ((rowhead / 9) / 3 | 0) * 27 + (colhead / 3 | 0) * 3;
+        for (let i = 0; i < 9; i++) {
+            let rowelm = rowhead + i;
+            let colelm = colhead + i * 9;
+            let blkelm = blkhead + (i / 3 | 0) * 9 + (i % 3);
+            if (this.partners.indexOf(rowelm) == -1) this.partners.push(rowelm);
+            if (this.partners.indexOf(colelm) == -1) this.partners.push(colelm);
+            if (this.partners.indexOf(blkelm) == -1) this.partners.push(blkelm);
         }
     }
-    return board;
+    this.assign = function (num) {
+        if (t++ > 1000) {
+            console.log('overloaded');
+            return;
+        }
+        this.number = num;
+        this.signed = true;
+        unsigned.splice(unsigned.indexOf(id), 1);
+        $(mainGrid[id]).html(num);
+        for (let i = 0; i < this.partners.length; i++) {
+            let pid = this.partners[i];
+            let partner = lattices[pid];
+            if (partner.signed)
+                continue;
+            let spliceIndex = partner.candidates.indexOf(num);
+            if (spliceIndex != -1)
+                partner.candidates.splice(spliceIndex, 1);
+            if (partner.candidates.length == 1)
+                partner.assign(partner.candidates[0])
+        }
+    }
+    this.assignRandom = function () {
+        let ind = Math.floor(Math.random() * this.candidates.length);
+        let num = this.candidates[ind];
+        this.assign(num);
+    }
+
+    this.getpartners();
 }
