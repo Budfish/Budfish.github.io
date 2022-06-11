@@ -43,11 +43,18 @@
     position: absolute;
     bottom: 0px;
     padding: 3vh;
-    font-size: 3rem;
     color: gray;
+    transition: bottom 1s;
+}
+
+#difficultyList * {
+    box-sizing: border-box;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 3rem;
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
-    transition: bottom 1s;
 }
 
 #difficultyList.hide {
@@ -55,12 +62,9 @@
 }
 
 .difficultyButton {
-    box-sizing: border-box;
-    width: 100%;
-    margin: 0.5rem auto 0.25rem auto;
     font-size: 4rem;
+    margin: 0.5rem auto 1rem auto !important;
     color: black;
-    font-family: 'Montserrat', sans-serif;
 }
 
 /* 遊戲選項 */
