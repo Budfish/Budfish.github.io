@@ -2,15 +2,14 @@
 // init parameters and functions
 let mainGrid = $('#main td');
 let numberSet = $('#numberSet span')
-let valid = true;
+let validBoard = true;
 let t = 0;
 let unsigned = [];
 let lattices = [];
 let signed = [];
 let chosenId = -1;
-let c = 0;
 function startNewGame() {
-    valid = true;
+    validBoard = true;
     t = 0;
     unsigned = [];
     lattices = [];
@@ -20,14 +19,14 @@ function startNewGame() {
         lattices.push(new lattice(i));
     }
     while (unsigned.length > 0) {
-        if (!valid) break;
+        if (!validBoard) break;
         lattices[unsigned[0]].assignRandom();
         if (t++ > 1000) {
             console.log('overloaded');
             break;
         }
     }
-    if (!valid) {
+    if (!validBoard) {
         console.log('false');
         startNewGame();
     }
@@ -53,7 +52,7 @@ function lattice(id) {
         }
     }
     this.assign = function (num) {
-        if (!valid) return;
+        if (!validBoard) return;
         if (t++ > 1000) {
             console.log('overloaded');
             return;
@@ -76,7 +75,7 @@ function lattice(id) {
                 $.each(partner.partners, (ind, ppid) => {
                     let pp = lattices[ppid];
                     if (pp.number == pnum)
-                        valid = false;
+                        validBoard = false;
                 })
                 partner.assign(pnum);
             }
@@ -95,6 +94,9 @@ function lattice(id) {
             $(mainGrid[id]).html(num);
         }
         this.validate();
+        $.each(this.partners, (ind, pid) => {
+            lattices[pid].validate();
+        })
     }
     this.validate = function () {
         let invalid = false;

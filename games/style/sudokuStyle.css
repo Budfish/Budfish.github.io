@@ -25,7 +25,7 @@
 }
 
 #numberSet>span {
-    width: auto;
+    flex: auto;
     font-size: 3rem;
     text-align: center;
 }
