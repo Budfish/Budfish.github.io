@@ -1,16 +1,29 @@
+const difficultClues = [40, 30, 26, 22];
 
 // init parameters and functions
-let mainGrid = $('#main td');
-let numberSet = $('#numberSet span')
-let functionSet = $('#functionSet span')
+let mainGrid = $('#mainTable td');
+let numberSet = $('#numberSet span');
+let functionSet = $('#functionSet span');
+let difficultyList = $('#difficultyList div');
 let validBoard = true;
 let t = 0;
-let unsigned = [];
 let lattices = [];
+let unsigned = [];
 let signed = [];
 let clues = [];
 let chosenId = -1;
-function startNewGame() {
+function startGame(difficulty) {
+    resetBoard();
+    generateSolution();
+    setupClues(difficulty);
+}
+function resetBoard() {
+    $.each(mainGrid, (ind, td) => {
+        chosenId = -1;
+        $(td).removeClass('active invalid clue').html('');
+    })
+}
+function generateSolution() {
     validBoard = true;
     t = 0;
     unsigned = [];
@@ -24,13 +37,13 @@ function startNewGame() {
         if (!validBoard) break;
         lattices[unsigned[0]].assignRandom();
         if (t++ > 1000) {
-            console.log('overloaded');
+            alert('瀏覽器超載，請重新整理頁面。');
             break;
         }
     }
     if (!validBoard) {
         console.log('false');
-        startNewGame();
+        generateSolution();
     }
 }
 function lattice(id) {
@@ -141,11 +154,13 @@ function getRandomIds(count) {
     }
     return res;
 }
-function setupClues() {
+function setupClues(difficulty) {
+    clues = getRandomIds(difficultClues[difficulty]);
     for (let id = 0; id < 81; id++) {
         if (clues.indexOf(id) == -1) {
             // it is a filling box
             lattices[id].number = 0;
+            $(mainGrid[id]).html('');
         } else {
             // it is a clue
             $(mainGrid[id]).addClass('clue').html(lattices[id].number);
@@ -154,7 +169,7 @@ function setupClues() {
 }
 
 //for traceing
-let traceIndex = 0;
+/* let traceIndex = 0;
 $(window).on('keydown', function (event) {
     if (event.keyCode == 37) {
         if (traceIndex <= 0) return;
@@ -164,16 +179,25 @@ $(window).on('keydown', function (event) {
         if (traceIndex > 80) return;
         $(signed[traceIndex++]).css({ 'background-color': 'yellow' });
     }
-});
+}); */
+
+// click function registration
 $(window).on('click', function (event) {
     changeChosenId(-1);
 })
-
-// init work
-startNewGame();
-clues = getRandomIds(25);
-setupClues();
-
+$('#cover').on('click', function (event) {
+    return false;
+})
+$.each(difficultyList, (ind, diff) => {
+    $(diff).click(e => {
+        startGame(ind);
+        $('#difficultyList').addClass('hide');
+        $('#cover').addClass('hide');
+        setTimeout(() => {
+            $('#cover').css({ 'display': 'none' });
+        }, 300)
+    })
+})
 $.each(mainGrid, (ind, val) => {
     $(val).click(e => {
         changeChosenId(ind);
