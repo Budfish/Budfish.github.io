@@ -1,12 +1,14 @@
 
+// init parameters and functions
 let mainGrid = $('#main td');
+let numberSet = $('#numberSet span')
 let valid = true;
 let t = 0;
 let unsigned = [];
 let lattices = [];
 let signed = [];
-startNewGame();
-
+let chosenId = -1;
+let c = 0;
 function startNewGame() {
     valid = true;
     t = 0;
@@ -30,7 +32,6 @@ function startNewGame() {
         startNewGame();
     }
 }
-
 function lattice(id) {
     this.id = id;
     this.signed = false;
@@ -86,24 +87,73 @@ function lattice(id) {
         let num = this.candidates[ind];
         this.assign(num);
     }
+    this.setNumber = function (num) {
+        this.number = num;
+        if (num == 0) {
+            $(mainGrid[id]).html('');
+        } else {
+            $(mainGrid[id]).html(num);
+        }
+        this.validate();
+    }
+    this.validate = function () {
+        let invalid = false;
+        $.each(this.partners, (ind, pid) => {
+            if (!invalid && pid != id) {
+                partner = lattices[pid];
+                if (partner.number == this.number) {
+                    invalid = true;
+                }
+            }
+        })
+        if (invalid) {
+            $(mainGrid[id]).addClass(`invalid`);
+        } else {
+            $(mainGrid[id]).removeClass('invalid');
+        }
+    }
 
     this.getpartners();
 }
-
-let currInd = 0;
+function changeChosenId(id) {
+    if (chosenId != -1)
+        $(mainGrid[chosenId]).removeClass('active');
+    if (id == chosenId) {
+        chosenId = -1;
+        return;
+    }
+    chosenId = id;
+    if (chosenId != -1)
+        $(mainGrid[chosenId]).addClass('active');
+}
+let traceIndex = 0;
 $(window).on('keydown', function (event) {
     if (event.keyCode == 37) {
-        if (currInd <= 0) return;
-        $(signed[--currInd]).css({ 'background-color': 'transparent' });
+        if (traceIndex <= 0) return;
+        $(signed[--traceIndex]).css({ 'background-color': 'transparent' });
     }
     if (event.keyCode == 39) {
-        if (currInd > 80) return;
-        $(signed[currInd++]).css({ 'background-color': 'yellow' });
+        if (traceIndex > 80) return;
+        $(signed[traceIndex++]).css({ 'background-color': 'yellow' });
     }
 });
+$(window).on('click', function (event) {
+    changeChosenId(-1);
+})
+
+// init work
+startNewGame();
 
 $.each(mainGrid, (ind, val) => {
     $(val).click(e => {
+        changeChosenId(ind);
         console.log(`id:${lattices[ind].id}, \ncandidates:${lattices[ind].candidates}, \npartners:${lattices[ind].partners}`)
+        return false;
+    })
+})
+$.each(numberSet, (ind, val) => {
+    $(val).click(e => {
+        if (chosenId == -1) return;
+        lattices[chosenId].setNumber(ind + 1);
     })
 })
