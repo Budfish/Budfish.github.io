@@ -17,11 +17,22 @@
     align-items: center;
 }
 
-#numberSet {
+#functionSet>i {
+    width: 20px;
+}
+
+#operationSet>div {
     max-width: 550px;
     width: 90vw;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+#functionSet>span {
+    max-width: 5vw;
+    flex: 1;
+    font-size: 4rem;
+    text-align: center;
 }
 
 #numberSet>span {
@@ -58,6 +69,7 @@ td {
     text-align: center;
     font-size: 3rem;
     border: 1px solid black;
+    color: blue;
 }
 
 td.active {
@@ -65,5 +77,9 @@ td.active {
 }
 
 td.invalid {
-    color: red;
+    color: red !important;
+}
+
+td.clue {
+    color: black;
 }

@@ -2,11 +2,13 @@
 // init parameters and functions
 let mainGrid = $('#main td');
 let numberSet = $('#numberSet span')
+let functionSet = $('#functionSet span')
 let validBoard = true;
 let t = 0;
 let unsigned = [];
 let lattices = [];
 let signed = [];
+let clues = [];
 let chosenId = -1;
 function startNewGame() {
     validBoard = true;
@@ -60,7 +62,7 @@ function lattice(id) {
         this.number = num;
         this.signed = true;
         unsigned.splice(unsigned.indexOf(id), 1);
-        $(mainGrid[id]).html(num);
+        //$(mainGrid[id]).html(num);
         signed.push(mainGrid[id]);
         for (let i = 0; i < this.partners.length; i++) {
             let pid = this.partners[i];
@@ -114,7 +116,6 @@ function lattice(id) {
             $(mainGrid[id]).removeClass('invalid');
         }
     }
-
     this.getpartners();
 }
 function changeChosenId(id) {
@@ -128,6 +129,31 @@ function changeChosenId(id) {
     if (chosenId != -1)
         $(mainGrid[chosenId]).addClass('active');
 }
+function getRandomIds(count) {
+    let allIds = [];
+    let res = [];
+    for (let i = 0; i < 81; i++)
+        allIds.push(i);
+    for (let i = 0; i < count; i++) {
+        let ind = Math.random() * allIds.length | 0;
+        res.push(allIds[ind]);
+        allIds.splice(ind, 1);
+    }
+    return res;
+}
+function setupClues() {
+    for (let id = 0; id < 81; id++) {
+        if (clues.indexOf(id) == -1) {
+            // it is a filling box
+            lattices[id].number = 0;
+        } else {
+            // it is a clue
+            $(mainGrid[id]).addClass('clue').html(lattices[id].number);
+        }
+    }
+}
+
+//for traceing
 let traceIndex = 0;
 $(window).on('keydown', function (event) {
     if (event.keyCode == 37) {
@@ -145,6 +171,8 @@ $(window).on('click', function (event) {
 
 // init work
 startNewGame();
+clues = getRandomIds(25);
+setupClues();
 
 $.each(mainGrid, (ind, val) => {
     $(val).click(e => {
@@ -156,6 +184,14 @@ $.each(mainGrid, (ind, val) => {
 $.each(numberSet, (ind, val) => {
     $(val).click(e => {
         if (chosenId == -1) return;
-        lattices[chosenId].setNumber(ind + 1);
+        if (clues.indexOf(chosenId) == -1)
+            lattices[chosenId].setNumber(ind + 1);
     })
+})
+$(functionSet[0]).click(e => {
+    if (chosenId == -1) return;
+    if (clues.indexOf(chosenId) == -1) {
+        $(mainGrid[chosenId]).html('');
+        lattices[chosenId].setNumber(0);
+    }
 })
