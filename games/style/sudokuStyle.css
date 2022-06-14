@@ -6,6 +6,10 @@
     font-family: 'Abril Fatface', cursive;
 }
 
+.flex-auto {
+    flex: auto;
+}
+
 /* 介面設置 */
 .standardCenter {
     max-width: 600px;
@@ -23,6 +27,12 @@
     background-color: aquamarine;
 }
 
+
+/* ******* */
+/* 蓋屏項目 */
+/* ******* */
+
+/* 難度選擇 */
 #cover {
     position: fixed;
     width: 100vw;
@@ -62,12 +72,35 @@
 }
 
 .difficultyButton {
+    cursor: pointer;
     font-size: 4rem;
     margin: 1rem auto 1.5rem auto !important;
     color: black;
 }
 
-/* 遊戲選項 */
+/* 過關畫面 */
+#finishCover {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    display: none;
+}
+
+#finishImg {
+    max-width: 480px;
+    width: 80vw;
+    position: absolute;
+    top: 20vh;
+}
+
+
+/* ******* */
+/* 遊玩區域 */
+/* ******* */
+
+/* 中區: 數獨格 */
 #playArea {
     width: 100%;
     height: 100vh;
@@ -78,32 +111,6 @@
     align-items: center;
 }
 
-#functionSet>i {
-    width: 20px;
-}
-
-#operationSet>div {
-    max-width: 550px;
-    width: 90vw;
-    display: flex;
-    justify-content: center;
-}
-
-#functionSet>span {
-    max-width: 5vw;
-    flex: 1;
-    font-size: 4rem;
-    text-align: center;
-}
-
-#numberSet>span {
-    flex: auto;
-    font-size: 3rem;
-    text-align: center;
-}
-
-
-/* 數獨格相關 */
 #mainTable {
     border: 3px solid black;
     border-collapse: collapse;
@@ -119,6 +126,7 @@ tr td:nth-child(3n) {
 }
 
 td {
+    cursor: pointer;
     width: 11.11%;
     height: 11.11%;
     text-align: center;
@@ -137,4 +145,37 @@ td.invalid {
 
 td.clue {
     color: black;
+}
+
+/* 下區: 功能 */
+#operationSet {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#operationSet>div {
+    max-width: 550px;
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+}
+
+#functionSet>i {
+    width: 20px;
+}
+
+#functionSet>span {
+    cursor: pointer;
+    max-width: 5vw;
+    flex: 1;
+    font-size: 4rem;
+    text-align: center;
+}
+
+#numberSet>span {
+    cursor: pointer;
+    flex: auto;
+    font-size: 3rem;
+    text-align: center;
 }
