@@ -3,7 +3,12 @@ const difficultClues = [40, 30, 26, 22];
 // init parameters and functions
 let mainGrid = $('#mainTable td');
 let numberSet = $('#numberSet span');
-let functionSet = $('#functionSet span');
+let functionSet = {
+    'erase': $('#erase'),
+    'reset': $('#reset'),
+    'note': $('#note'),
+    'hint': $('#hint'),
+}
 let difficultyList = $('#difficultyList .difficultyButton');
 let validBoard = true;
 let t = 0;
@@ -12,6 +17,7 @@ let unsigned = [];
 let signed = [];
 let clues = [];
 let chosenId = -1;
+let hintOn = false;
 function startGame(difficulty) {
     resetBoard();
     generateSolution();
@@ -48,6 +54,7 @@ function generateSolution() {
 }
 function lattice(id) {
     this.id = id;
+    this.gametype = 0; // 0 for puzzle, 1 for clue
     this.signed = false;
     this.number = 0;
     this.candidates = [1, 2, 3, 4, 5, 6, 7, 8, 9,];
@@ -160,11 +167,25 @@ function setupClues(difficulty) {
         if (clues.indexOf(id) == -1) {
             // it is a filling box
             lattices[id].number = 0;
-            $(mainGrid[id]).html('');
+            $(mainGrid[id]).addClass('puzzle').html('');
         } else {
             // it is a clue
+            lattices[id].gametype = 1;
             $(mainGrid[id]).addClass('clue').html(lattices[id].number);
         }
+    }
+}
+function removeShowings() {
+    $.each($('.onShowing'), (_, td) => {
+        $(td).removeClass('onShowing');
+    })
+}
+function showPartners(id) {
+    removeShowings();
+    if (id != -1) {
+        $.each(lattices[id].partners, (_, pid) => {
+            $(mainGrid[pid]).addClass('onShowing');
+        })
     }
 }
 
@@ -201,7 +222,7 @@ $.each(difficultyList, (ind, diff) => {
 $.each(mainGrid, (ind, val) => {
     $(val).click(e => {
         changeChosenId(ind);
-        console.log(`id:${lattices[ind].id}, \ncandidates:${lattices[ind].candidates}, \npartners:${lattices[ind].partners}`)
+        if (hintOn) showPartners(chosenId);
         return false;
     })
 })
@@ -210,12 +231,21 @@ $.each(numberSet, (ind, val) => {
         if (chosenId == -1) return;
         if (clues.indexOf(chosenId) == -1)
             lattices[chosenId].setNumber(ind + 1);
+        return false;
     })
 })
-$(functionSet[0]).click(e => {
+$(functionSet['erase']).click(e => {
     if (chosenId == -1) return;
     if (clues.indexOf(chosenId) == -1) {
         $(mainGrid[chosenId]).html('');
         lattices[chosenId].setNumber(0);
     }
+    return false;
+})
+$(functionSet['hint']).click(e => {
+    hintOn = !hintOn;
+    $('#hint i').toggleClass('fa-solid fa-regular color-on');
+    if (!hintOn) removeShowings();
+    if (chosenId != -1 && hintOn) showPartners(chosenId);
+    return false;
 })
