@@ -143,11 +143,12 @@ function changeChosenId(id) {
         $(mainGrid[chosenId]).removeClass('active');
     if (id == chosenId) {
         chosenId = -1;
-        return;
+    } else {
+        chosenId = id;
+        if (chosenId != -1)
+            $(mainGrid[chosenId]).addClass('active');
     }
-    chosenId = id;
-    if (chosenId != -1)
-        $(mainGrid[chosenId]).addClass('active');
+    if (hintOn) showPartners(chosenId);
 }
 function getRandomIds(count) {
     let allIds = [];
@@ -203,10 +204,10 @@ $(window).on('keydown', function (event) {
 }); */
 
 // click function registration
-$(window).on('click', function (event) {
+$(window).click(e => {
     changeChosenId(-1);
 })
-$('#cover').on('click', function (event) {
+$('#cover').click(e => {
     return false;
 })
 $.each(difficultyList, (ind, diff) => {
@@ -222,7 +223,6 @@ $.each(difficultyList, (ind, diff) => {
 $.each(mainGrid, (ind, val) => {
     $(val).click(e => {
         changeChosenId(ind);
-        if (hintOn) showPartners(chosenId);
         return false;
     })
 })
