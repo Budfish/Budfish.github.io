@@ -87,7 +87,6 @@
     width: 100vw;
     height: 100vh;
     position: fixed;
-    display: flex;
     justify-content: center;
     display: none;
 }
@@ -96,7 +95,16 @@
     max-width: 480px;
     width: 80vw;
     position: absolute;
-    top: 20vh;
+    top: 100vh;
+    transition: top 2s cubic-bezier(.32, .89, .72, -0.09);
+}
+
+#finishCover.active {
+    display: flex;
+}
+
+#finishImg.active {
+    top: -100vh;
 }
 
 
@@ -176,15 +184,11 @@ td.clue.invalid {
     justify-content: center;
 }
 
-#functionSet>i {
-    width: 20px;
-}
-
 #functionSet>span {
     cursor: pointer;
-    max-width: 5vw;
-    flex: 1;
-    font-size: 4rem;
+    width: 40px;
+    margin: 0 10px 10px 10px;
+    font-size: 3.5rem;
     text-align: center;
 }
 

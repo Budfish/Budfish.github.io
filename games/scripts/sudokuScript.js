@@ -189,6 +189,14 @@ function showPartners(id) {
         })
     }
 }
+function finished() {
+    changeChosenId(-1);
+    $('#finishCover').addClass('active');
+    setTimeout(() => {
+        $('#finishImg').addClass('active');
+    }, 100);
+
+}
 
 //for traceing
 /* let traceIndex = 0;
