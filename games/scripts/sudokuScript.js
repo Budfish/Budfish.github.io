@@ -1,4 +1,4 @@
-const difficultClues = [40, 30, 26, 22];
+const difficultClues = [/* 70, */ 40, 30, 26, 22];
 
 // init parameters and functions
 let mainGrid = $('#mainTable td');
@@ -18,7 +18,9 @@ let signed = [];
 let clues = [];
 let chosenId = -1;
 let hintOn = false;
+let remainPuzzle = 81;
 function startGame(difficulty) {
+    remainPuzzle = 81 - difficultClues[difficulty];
     resetBoard();
     generateSolution();
     setupClues(difficulty);
@@ -109,16 +111,20 @@ function lattice(id) {
         this.assign(num);
     }
     this.setNumber = function (num) {
+        if (this.number == 0 && num > 0) remainPuzzle--;
+        if (this.number > 0 && num == 0) remainPuzzle++;
         this.number = num;
         if (num == 0) {
             $(mainGrid[id]).html('');
         } else {
             $(mainGrid[id]).html(num);
         }
-        this.validate();
-        $.each(this.partners, (ind, pid) => {
+        $.each(this.partners, (_, pid) => {
             lattices[pid].validate();
         })
+        if (remainPuzzle == 0 && $('.invalid').length == 0) {
+            finished();
+        }
     }
     this.validate = function () {
         let invalid = false;
@@ -189,8 +195,19 @@ function showPartners(id) {
         })
     }
 }
+function turnHint(toon) {
+    hintOn = toon;
+    if (toon) {
+        $('#hint i').addClass('fa-solid color-on').removeClass('fa-regular');
+    } else {
+        $('#hint i').removeClass('fa-solid color-on').addClass('fa-regular');
+        if (!toon) removeShowings();
+    }
+    if (chosenId != -1 && toon) showPartners(chosenId);
+}
 function finished() {
     changeChosenId(-1);
+    turnHint(false);
     $('#finishCover').addClass('active');
     setTimeout(() => {
         $('#finishImg').addClass('active');
@@ -244,16 +261,13 @@ $.each(numberSet, (ind, val) => {
 })
 $(functionSet['erase']).click(e => {
     if (chosenId == -1) return;
-    if (clues.indexOf(chosenId) == -1) {
+    if (clues.indexOf(chosenId) == -1 && lattices[chosenId].number != 0) {
         $(mainGrid[chosenId]).html('');
         lattices[chosenId].setNumber(0);
     }
     return false;
 })
 $(functionSet['hint']).click(e => {
-    hintOn = !hintOn;
-    $('#hint i').toggleClass('fa-solid fa-regular color-on');
-    if (!hintOn) removeShowings();
-    if (chosenId != -1 && hintOn) showPartners(chosenId);
+    turnHint(!hintOn);
     return false;
 })
