@@ -1,4 +1,4 @@
-const difficultClues = [/* 70, */ 40, 30, 26, 22];
+const difficultClues = [/* 70, */ 40, 31, 27, 23];
 
 // init parameters and functions
 let mainGrid = $('#mainTable td');
@@ -19,11 +19,13 @@ let clues = [];
 let chosenId = -1;
 let hintOn = false;
 let remainPuzzle = 81;
+let canRestart = false;
 function startGame(difficulty) {
     remainPuzzle = 81 - difficultClues[difficulty];
     resetBoard();
     generateSolution();
     setupClues(difficulty);
+    canRestart = false;
 }
 function resetBoard() {
     $.each(mainGrid, (ind, td) => {
@@ -206,13 +208,16 @@ function turnHint(toon) {
     if (chosenId != -1 && toon) showPartners(chosenId);
 }
 function finished() {
+    console.log(canRestart);
     changeChosenId(-1);
     turnHint(false);
     $('#finishCover').addClass('active');
     setTimeout(() => {
         $('#finishImg').addClass('active');
     }, 100);
-
+    setTimeout(() => {
+        canRestart = true;
+    }, 3000)
 }
 
 //for traceing
@@ -234,6 +239,17 @@ $(window).click(e => {
 })
 $('#cover').click(e => {
     return false;
+})
+$('#finishCover').click(e => {
+    if (canRestart) {
+        $('#finishCover').removeClass('active');
+        $('#finishImg').removeClass('active');
+        $('#cover').css({ 'display': 'block' });
+        setTimeout(() => {
+            $('#cover').removeClass('hide');
+            $('#difficultyList').removeClass('hide');
+        }, 300)
+    }
 })
 $.each(difficultyList, (ind, diff) => {
     $(diff).click(e => {
@@ -271,3 +287,4 @@ $(functionSet['hint']).click(e => {
     turnHint(!hintOn);
     return false;
 })
+
