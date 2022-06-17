@@ -27,7 +27,7 @@
     <div id="cover">
         <div id="difficultyList">
             <div style="margin-bottom: 3rem;">Choose a Difficulty:</div>
-            <!-- <div class="difficultyButton">Test Run</div> -->
+            <div class="difficultyButton">Test Run</div>
             <div class="difficultyButton">Easy</div>
             <div class="difficultyButton">Medium</div>
             <div class="difficultyButton">Hard</div>
@@ -41,7 +41,12 @@
 
     <div id="playArea">
         <div class="bar"></div>
-        <div class="flex-auto">
+        <div id="messageArea" class="flex-auto">
+            <div id="theMessage" class="hCenter hide">Click board to play again!</div>
+            <div id="clockArea" class="hCenter">
+                <span id="timeShower" class="hide"></span>
+                <i id="clockIcon" style="cursor:pointer;" class="fa-regular fa-clock fa-1x"></i>
+            </div>
         </div>
         <div>
             <table id="mainTable" class="standardCenter">

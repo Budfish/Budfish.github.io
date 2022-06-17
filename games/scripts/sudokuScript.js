@@ -1,4 +1,4 @@
-const difficultClues = [/* 70, */ 40, 31, 27, 23];
+const difficultClues = [/* 80, */ 40, 31, 27, 23];
 
 // init parameters and functions
 let mainGrid = $('#mainTable td');
@@ -20,11 +20,15 @@ let chosenId = -1;
 let hintOn = false;
 let remainPuzzle = 81;
 let canRestart = false;
+let ticking = false;
+let playingTime = 0;
 function startGame(difficulty) {
     remainPuzzle = 81 - difficultClues[difficulty];
     resetBoard();
     generateSolution();
     setupClues(difficulty);
+    playingTime = 0;
+    clockOn();
     canRestart = false;
 }
 function resetBoard() {
@@ -208,7 +212,7 @@ function turnHint(toon) {
     if (chosenId != -1 && toon) showPartners(chosenId);
 }
 function finished() {
-    console.log(canRestart);
+    ticking = false;
     changeChosenId(-1);
     turnHint(false);
     $('#finishCover').addClass('active');
@@ -216,8 +220,38 @@ function finished() {
         $('#finishImg').addClass('active');
     }, 100);
     setTimeout(() => {
+        $('#finishCover').removeClass('active');
+        $('#finishImg').removeClass('active');
+        $('#theMessage').removeClass('hide');
         canRestart = true;
     }, 3000)
+}
+function clockOn() {
+    ticking = true;
+    tick();
+}
+function tick() {
+    if (!ticking) return;
+    let str = getTimeString(playingTime++);
+    $('#timeShower').html(str);
+    setTimeout(() => {
+        tick();
+    }, 1000)
+}
+function getTimeString(time) {
+    let min = time / 60 | 0;
+    let sec = time % 60;
+    min = min.toString().padStart(2, '0');
+    sec = sec.toString().padStart(2, '0');
+    return `${min}:${sec}`;
+}
+function restart() {
+    $('#cover').css({ 'display': 'block' });
+    setTimeout(() => {
+        $('#theMessage').addClass('hide');
+        $('#cover').removeClass('hide');
+        $('#difficultyList').removeClass('hide');
+    }, 300)
 }
 
 //for traceing
@@ -240,16 +274,10 @@ $(window).click(e => {
 $('#cover').click(e => {
     return false;
 })
-$('#finishCover').click(e => {
-    if (canRestart) {
-        $('#finishCover').removeClass('active');
-        $('#finishImg').removeClass('active');
-        $('#cover').css({ 'display': 'block' });
-        setTimeout(() => {
-            $('#cover').removeClass('hide');
-            $('#difficultyList').removeClass('hide');
-        }, 300)
-    }
+$('#mainTable').click(e => {
+})
+$('#clockIcon').click(e => {
+    $('#timeShower').toggleClass('hide');
 })
 $.each(difficultyList, (ind, diff) => {
     $(diff).click(e => {
@@ -263,6 +291,10 @@ $.each(difficultyList, (ind, diff) => {
 })
 $.each(mainGrid, (ind, val) => {
     $(val).click(e => {
+        if (canRestart) {
+            restart();
+            return false;
+        }
         changeChosenId(ind);
         return false;
     })
