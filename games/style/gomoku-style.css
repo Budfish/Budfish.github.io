@@ -1,0 +1,74 @@
+/* 通用項目 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+td {
+    box-sizing: border-box;
+    width: 5vh;
+    height: 5vh;
+}
+
+/* 獨立項目 */
+#container {
+    width: 80vh;
+    height: 80vh;
+    background-color: blanchedalmond;
+    border: 1px solid rgb(104, 38, 0);
+    margin: 20px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 呈現樣式 */
+#showtable {
+    border-collapse: collapse;
+    position: absolute;
+    z-index: 1;
+}
+
+#showtable td {
+    position: relative;
+    border: 2px solid black;
+}
+
+.chess {
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 92%;
+    height: 92%;
+    background-color: white;
+}
+
+.blackPlayer {
+    background-color: rgb(20, 20, 20);
+}
+
+.whitePlayer {
+    background-color: rgb(235, 235, 235);
+}
+
+/* 運作表格 */
+#playtable {
+    border-collapse: collapse;
+    position: absolute;
+    z-index: 2;
+}
+
+#playtable tr {
+    display: flex;
+}
+
+#playtable td {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#playtable td:hover {
+    background-color: rgba(70, 255, 215, 0.5);
+}
