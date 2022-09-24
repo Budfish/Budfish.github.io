@@ -1,4 +1,6 @@
+/***********/
 /* 通用項目 */
+/***********/
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +12,31 @@ td {
     height: 5vh;
 }
 
+/***********/
 /* 獨立項目 */
+/***********/
+
+/* 結束訊息 */
+#cover {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#cover.activate {
+    display: flex;
+}
+
+#endMessage {
+    border: 1px solid black;
+    background-color: white;
+    transform: translate(0, -15vh);
+}
+
 #container {
     width: 80vh;
     height: 80vh;
@@ -23,7 +49,9 @@ td {
     align-items: center;
 }
 
+/***********/
 /* 呈現樣式 */
+/***********/
 #showtable {
     border-collapse: collapse;
     position: absolute;
@@ -52,7 +80,9 @@ td {
     background-color: rgb(235, 235, 235);
 }
 
+/***********/
 /* 運作表格 */
+/***********/
 #playtable {
     border-collapse: collapse;
     position: absolute;
