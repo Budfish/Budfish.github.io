@@ -43,6 +43,15 @@ function ValidateWin(ind) {
         if (GetDirectionCount(ind, i) >= 5) return true;
     return false;
 }
+function SetChessAt(ind) {
+    let jqElement = $(lattices[ind]);
+    if (jqElement.html() != "") return;
+    jqElement.html(`<div class="chess ${playerEnum[player]}"></div>`);
+    boardStatue[ind] = player;
+    if (ValidateWin(ind))
+        $("#cover").addClass("activate");
+    player = (player + 1) % 2;
+}
 
 
 Init();
@@ -53,12 +62,7 @@ $("#cover").click(e => {
 })
 $.each(lattices, (ind, val) => {
     $(val).click(e => {
-        if ($(val).html() != "") return;
-        $(val).html(`<div class="chess ${playerEnum[player]}"></div>`);
-        boardStatue[ind] = player;
-        if (ValidateWin(ind))
-            $("#cover").addClass("activate");
-        player = (player + 1) % 2;
+        SetChessAt(ind);
     })
 })
 
