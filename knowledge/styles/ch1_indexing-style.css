@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 18px;
+}
+
+body {
+    background: linear-gradient(135deg, rgba(100, 255, 203, 0.3), rgba(100, 255, 255, 0.3));
+}
+
+.mb {
+    margin-bottom: 1rem;
+}
+
+/* ******* */
+/* 各別項目 */
+/* ******* */
+
+/* 主排版 */
+
+#container {
+    display: flex;
+    margin: 20px;
+}
+
+#container>div {
+    max-height: calc(100vh - 40px);
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#container>div::-webkit-scrollbar {
+    display: none;
+}
+
+/* 選單列 */
+
+#naveArea {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 250px;
+    padding: 20px 10px;
+}
+
+.subArea {
+    padding: 5px;
+    border: 0;
+}
+
+.subArea>div {
+    margin: 5px 0px;
+    text-align: center;
+}
+
+.subArea>.title {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0), aquamarine, rgba(0, 0, 0, 0));
+    border-radius: 5px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 2px 0;
+}
+
+.subArea>.course {
+    font-size: 1.2rem;
+    line-height: 2rem;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    transition: background-color 300ms;
+}
+
+.subArea>.course:hover {
+    background-color: rgba(215, 215, 215, 0.5);
+}
+
+/* 操作列 */
+
+#lectureArea {
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .2);
+    border-radius: 7px;
+    flex: 1;
+    padding: 20px 40px;
+    margin-left: 20px;
+}
+
+#lectureTitle {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#targetRow {
+    background-color: white;
+    border: 1px solid black;
+    width: max-content;
+    height: 3rem;
+}
+
+#answerRowsArea>div {
+    display: flex;
+    justify-content: start;
+}
+
+.answerArea {
+    margin-left: 1rem;
+
+    display: flex;
+    height: 2rem;
+    align-items: center;
+}
+
+.answerArea input {
+    width: 300px;
+    height: 2rem;
+    border: 1px solid rgba(0, 0, 0, .2);
+    padding: 0 5px;
+}
+
+.letterRow {
+    display: flex;
+    height: 2rem;
+    align-items: center;
+}
+
+.letterRow>div {
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+    border-bottom: 1px solid black;
+    margin: 0px 0.3rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+#addRowBtn {
+    padding: 10px 15px;
+    border: 1px solid rgb(0, 134, 90);
+    width: max-content;
+    border-radius: 10px;
+    background-color: rgba(0, 255, 170, 0.2);
+    cursor: pointer;
+    transition: background-color 200ms;
+}
+
+#addRowBtn:hover {
+    background-color: rgba(0, 255, 170, 0.4);
+}
