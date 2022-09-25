@@ -49,6 +49,19 @@ td {
     align-items: center;
 }
 
+@media screen and (max-device-aspect-ratio: 1/1) {
+    td {
+        box-sizing: border-box;
+        width: 5vw;
+        height: 5vw;
+    }
+
+    #container {
+        width: 80vw;
+        height: 80vw;
+    }
+}
+
 /***********/
 /* 呈現樣式 */
 /***********/

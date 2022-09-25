@@ -4,6 +4,7 @@ const lattices = $("#playtable td");
 const playerEnum = { 0: "blackPlayer", 1: "whitePlayer" };
 const boardMax = 15 * 15;
 const directionNumber = [1, 16, 15, 14];
+const centerDotString = `<div class="chess" style="width:30%;height:30%;background-color:black;position:absolute;top:-15%;left:-15%;"></div>`;
 
 let player = 0;
 let boardStatue = [];
@@ -26,12 +27,14 @@ function GetDirectionCount(ind, dir) {
         curr += dirnum;
         if (boardStatue[curr] != player) break;
         count++;
+        if (dirnum % 15 != 0 && curr % 15 == 14) break;
     }
     curr = ind;
     while (curr - dirnum >= 0) {
         curr -= dirnum;
         if (boardStatue[curr] != player) break;
         count++;
+        if (dirnum % 15 != 0 && curr % 15 == 0) break;
     }
     return count;
 }
@@ -43,7 +46,7 @@ function ValidateWin(ind) {
 
 
 Init();
-$($("#showtable td")[105]).html(`<div class="chess" style="width:30%;height:30%;background-color:black;position:absolute;top:-15%;left:-15%;"></div>`)
+$($("#showtable td")[105]).html(centerDotString)
 $("#cover").click(e => {
     $(e.target).removeClass("activate");
     Init();
