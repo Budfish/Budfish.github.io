@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>Indexing Appendix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 24px;
+        }
+
+        .mb {
+            margin-bottom: 1rem;
+        }
+
+        #header {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        #header>input {
+            width: 1.5rem;
+            border: none;
+            background-color: transparent;
+            font-size: 1.5rem;
+            font-family: serif;
+            text-align: center;
+        }
+
+        #contentArea {
+            width: 80vw;
+            margin: auto;
+        }
+
+        #oneDArea {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #twoDArea {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .row {
+            display: flex;
+            justify-content: flex-start;
+            width: max-content;
+            margin: 1px 2px;
+        }
+
+        #oneDArea .letter {
+            width: 1.5rem;
+            padding: 2px 5px;
+            text-align: center;
+            margin: 0 5px;
+        }
+
+        #twoDArea .row {
+            margin-bottom: 10px;
+        }
+
+        #twoDArea .letter {
+            width: 2.8rem;
+            padding: 2px 5px;
+            text-align: center;
+            margin: 0 5px;
+        }
+
+        .row.activate {
+            background-color: rgba(0, 130, 255, 0.3);
+        }
+
+        .letter.activate {
+            background-color: rgba(0, 130, 255, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header" class="mb">
+        Array[<input type="text" placeholder="_">][<input type="text" placeholder="_">]
+    </div>
+    <div id="contentArea">
+        <div id="oneDArea" class="mb">
+        </div>
+        <div id="twoDArea">
+        </div>
+    </div>
+</body>
+<script>
+    const mInput = $("input:text")[0];
+    const nInput = $("input:text")[1];
+    const oneDArea = $("#oneDArea");
+    const twoDArea = $("#twoDArea");
+    let m = 0, n = 0;
+
+    function Init() {
+        $(mInput).val(3);
+        $(nInput).val(5);
+        OnInputUpdate();
+    }
+    function OnInputUpdate() {
+        m = $(mInput).val();
+        n = $(nInput).val();
+        Update1DArea();
+        Update2DArea();
+        UpdateHoverEvent();
+    }
+    function Update1DArea() {
+        $(oneDArea).html('');
+        let rowHTML = "";
+        let count = 0;
+        for (let i = 0; i < m; i++) {
+            rowHTML += `<div id="D1R-${i}" class="row">`;
+            for (let j = 0; j < n; j++) {
+                rowHTML += `<div id="D1-${count}" class="letter">${count++}</div>`;
+            }
+            rowHTML += `</div>`;
+        }
+        $(oneDArea).html(rowHTML);
+    }
+    function Update2DArea() {
+        $(twoDArea).html('');
+        let rowHTML = "";
+        let count = 0;
+        for (let i = 0; i < m; i++) {
+            rowHTML += `<div id="D2R-${i}" class="row">`;
+            for (let j = 0; j < n; j++) {
+                rowHTML += `<div id="D2-${count++}" class="letter">[${i}][${j}]</div>`;
+            }
+            rowHTML += `</div>`;
+        }
+        $(twoDArea).html(rowHTML);
+    }
+    function UpdateHoverEvent() {
+        for (let i = 0; i < m; i++) {
+            let elm1 = $(`#D1R-${i}`)[0];
+            let elm2 = $(`#D2R-${i}`)[0];
+            CombineElements(elm1, elm2);
+        }
+        for (let i = 0; i < m * n; i++) {
+            let elm1 = $(`#D1-${i}`)[0];
+            let elm2 = $(`#D2-${i}`)[0];
+            CombineElements(elm1, elm2);
+        }
+    }
+    function CombineElements(elm1, elm2) {
+        $(elm1).mouseover(e => {
+            $(elm1).addClass("activate");
+            $(elm2).addClass("activate");
+        })
+        $(elm2).mouseover(e => {
+            $(elm2).addClass("activate");
+            $(elm1).addClass("activate");
+        })
+        $(elm1).mouseout(e => {
+            $(elm1).removeClass("activate");
+            $(elm2).removeClass("activate");
+        })
+        $(elm2).mouseout(e => {
+            $(elm2).removeClass("activate");
+            $(elm1).removeClass("activate");
+        })
+    }
+
+    $(mInput).change(e => {
+        OnInputUpdate();
+    })
+    $(nInput).change(e => {
+        OnInputUpdate();
+    })
+    Init();
+
+</script>
+
+</html>
