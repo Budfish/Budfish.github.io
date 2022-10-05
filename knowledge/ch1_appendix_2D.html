@@ -16,15 +16,21 @@
             font-size: 24px;
         }
 
+        body {
+            background: linear-gradient(135deg, rgba(100, 255, 203, 0.3), rgba(100, 255, 255, 0.3));
+        }
+
         .mb {
             margin-bottom: 1rem;
         }
 
         #header {
-            padding: 20px;
+            margin: 15px auto;
+            padding: 10px;
             display: flex;
             justify-content: center;
             font-size: 1.5rem;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0), aquamarine, rgba(0, 0, 0, 0));
         }
 
         #header>input {
@@ -36,9 +42,21 @@
             text-align: center;
         }
 
+        .title {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
         #contentArea {
             width: 80vw;
             margin: auto;
+        }
+
+        .DArea {
+            border: 1px solid black;
+            padding: 10px 0;
+            border-radius: 2px;
+            background-color: white;
         }
 
         #oneDArea {
@@ -58,6 +76,11 @@
             justify-content: flex-start;
             width: max-content;
             margin: 1px 2px;
+            transition: background-color 120ms;
+        }
+
+        .letter {
+            transition: background-color 120ms;
         }
 
         #oneDArea .letter {
@@ -93,10 +116,10 @@
         Array[<input type="text" placeholder="_">][<input type="text" placeholder="_">]
     </div>
     <div id="contentArea">
-        <div id="oneDArea" class="mb">
-        </div>
-        <div id="twoDArea">
-        </div>
+        <div class="title mb">一維陣列</div>
+        <div id="oneDArea" class="DArea mb"></div>
+        <div class="title mb">二維陣列</div>
+        <div id="twoDArea" class="DArea"></div>
     </div>
 </body>
 <script>
@@ -107,16 +130,28 @@
     let m = 0, n = 0;
 
     function Init() {
-        $(mInput).val(3);
+        $(mInput).val(6);
         $(nInput).val(5);
         OnInputUpdate();
     }
     function OnInputUpdate() {
-        m = $(mInput).val();
-        n = $(nInput).val();
+        if (!ValidateMN()) return;
         Update1DArea();
         Update2DArea();
         UpdateHoverEvent();
+    }
+    function ValidateMN() {
+        m = $(mInput).val();
+        n = $(nInput).val();
+        if (m <= 0 || n <= 0 || m >= 10 || n >= 10) {
+            alert("請輸入1~9之間的數");
+            return false;
+        }
+        m = m | 0;
+        n = n | 0;
+        $(mInput).val(m);
+        $(nInput).val(n);
+        return true;
     }
     function Update1DArea() {
         $(oneDArea).html('');
