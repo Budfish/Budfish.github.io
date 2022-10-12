@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <title>Sign Battle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 36px;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(200, 255, 238);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sign {
+            width: 1rem;
+            height: 1rem;
+            position: absolute;
+            transform: translate(-0.5rem, -0.5rem);
+        }
+
+        .A {
+            background-color: red;
+        }
+
+        .B {
+            background-color: greenyellow;
+        }
+
+        .C {
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+</body>
+<script src="/games/scripts/g_08_signbattle.js"></script>
+
+</html>
