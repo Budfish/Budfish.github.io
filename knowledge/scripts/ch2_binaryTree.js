@@ -31,6 +31,8 @@ class TreeNode {
         let elementStr = `
             <div class="nodeDiv" id="${this.id}" style="top: ${this.stage * stageHeight + 2}rem;">
                 <div class="node">${this.val}</div>
+                <div class="add left" style="left: -.8rem;" onclick="AddNode(${this.id},0)"></div>
+                <div class="add right" style="left: .8rem;" onclick="AddNode(${this.id},1)"></div>
             </div>
         `;
         $(container).append(elementStr);
@@ -51,6 +53,7 @@ function UpdateNodes(node) {
     UpdateBandWidth(node);
     RefreshHorizontal(node);
     CreateLine(node);
+    RemoveAddButton(node);
 }
 function UpdateBandWidth(node) {
     if (!node) return;
@@ -96,15 +99,33 @@ function GetLineStr(node, type) {
     let styleStr = `transform:rotate(${angle}deg);width:${length}px;`;
     return `<div class="line" style="${styleStr}"></div>`;
 }
+function RemoveAddButton(node) {
+    if (!node) return;
+    if (node.left) $(node.element).children(".add.left").remove();
+    if (node.right) $(node.element).children(".add.right").remove();
+    RemoveAddButton(node.left);
+    RemoveAddButton(node.right);
+}
+function AddNode(nodeId, type) {
+    nodeId = $(nodeId).attr("id")
+    let node = GetNodeById(root, nodeId);
+    if (type)
+        node.AddRight(num++);
+    else
+        node.AddLeft(num++);
+}
+function GetNodeById(node, nodeId) {
+    if (!node) return null;
+    if (node.id == nodeId) return node;
+    let searchResult = undefined;
+    searchResult = GetNodeById(node.left, nodeId);
+    if (searchResult) return searchResult;
+    searchResult = GetNodeById(node.right, nodeId);
+    if (searchResult) return searchResult;
+    return null;
+
+}
 
 // initialization
 let num = 0;
 let root = new TreeNode(num++);
-root.AddLeft(num++);
-root.AddRight(num++);
-root.left.AddLeft(num++);
-root.left.AddRight(num++);
-root.right.AddLeft(num++);
-root.left.right.AddLeft(num++);
-root.left.right.AddRight(num++);
-root.right.left.AddLeft(num++);

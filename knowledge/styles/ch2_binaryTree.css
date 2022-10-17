@@ -9,7 +9,7 @@
     height: 100vh;
     background-color: rgb(169, 255, 234);
     position: relative;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .nodeDiv {
@@ -38,4 +38,23 @@
     transform-origin: top left;
     transition: transform linear 500ms;
     z-index: 1;
+}
+
+.add {
+    width: 1rem;
+    height: 1rem;
+    background-color: yellow;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: .8rem;
+    cursor: pointer;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 300ms;
+
+}
+
+.add:hover {
+    opacity: .75;
 }
