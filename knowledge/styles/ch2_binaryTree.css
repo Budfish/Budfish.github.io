@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+
+#container {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(169, 255, 234);
+    position: relative;
+    overflow: scroll;
+}
+
+.nodeDiv {
+    width: 50%;
+    position: absolute;
+    transform: translateX(100%);
+}
+
+.node {
+    border: 1px solid black;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 2rem;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    z-index: 10;
+}
+
+.line {
+    border: 1px solid black;
+    height: 0px;
+    position: absolute;
+    transform-origin: top left;
+    transition: transform linear 500ms;
+    z-index: 1;
+}
