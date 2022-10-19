@@ -7,12 +7,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Document</title>
     <link rel="stylesheet" href="/knowledge/styles/ch2_binaryTree.css">
 </head>
 
 <body>
-    <div id="container"></div>
+    <div id="workBench">
+        <div id="topArea">
+            <div id="textArea">
+                <div id="textFunctionArea">
+                    <span>
+                        <i class="fa-solid fa-backward-step"></i>
+                    </span>
+                    <span>
+                        <i class="fa-solid fa-forward-step"></i>
+                    </span>
+                    <span id="runCode">
+                        <i class="fa-solid fa-play"></i>
+                    </span>
+
+                </div>
+                <textarea id="userCode" name="" id="" cols="30" rows="10"
+                    placeholder="function recursion(){}"></textarea>
+            </div>
+            <div id="treeArea" class="lightArea"></div>
+        </div>
+        <div id="bottomArea" class="lightArea">
+        </div>
+    </div>
 </body>
 <script src="/knowledge/scripts/ch2_binaryTree.js"></script>
 

@@ -1,21 +1,114 @@
+/* 通用項目 */
 * {
     margin: 0;
     padding: 0;
     font-size: 20px;
 }
 
-#container {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(169, 255, 234);
-    position: relative;
+*::-webkit-scrollbar {
+    width: 7px;
+    height: 0;
+    background: transparent;
+}
+
+*::-webkit-scrollbar-track {
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px grey;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+i {
+    cursor: pointer;
+}
+
+body {
+    background: linear-gradient(135deg, rgba(100, 255, 203, 0.3), rgba(100, 255, 255, 0.3));
+}
+
+textarea {
+    border: 0;
+}
+
+textarea:focus {
+    outline: 0;
+}
+
+.lightArea {
+    background-color: rgba(255, 255, 255, 0.80);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .2);
+    border-radius: 7px;
+}
+
+
+/* 主排版 */
+#workBench {
+    margin: 20px;
+}
+
+#topArea {
+    width: calc(100vw - 40px);
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+#textArea {
+    min-width: 300px;
+    width: 30%;
+    height: 45vh;
+    border-radius: 7px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .2);
+}
+
+#userCode {
+    height: 100%;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    resize: none;
+    overflow-y: scroll;
+}
+
+#textFunctionArea {
+    background-color: rgb(0, 175, 255);
+    font-size: 1.5rem;
+    height: 36px;
+    line-height: 30px;
+    text-align: end;
+}
+
+#textFunctionArea>span {
+    margin-right: 1rem;
+}
+
+#treeArea {
+    width: 70%;
+    margin-left: 1rem;
+}
+
+#bottomArea {
+    height: calc(55vh - 40px - 1rem);
+}
+
+
+/* Tree呈現相關 */
+#treeArea {
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .nodeDiv {
-    width: 50%;
     position: absolute;
-    transform: translateX(100%);
+    padding-bottom: 150px;
 }
 
 .node {
