@@ -217,6 +217,13 @@ i {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, .2);
     top: 3rem;
     overflow: hidden;
+    transform: scaleY(0);
+    transition: transform 120ms;
+}
+
+.functionWindow.show {
+    transform: scaleY(1);
+    transition: transform 200ms;
 }
 
 .functionWindow .header {
@@ -241,6 +248,11 @@ i {
 
 .variable:hover {
     background-color: rgba(255, 255, 0, 0.6);
+}
+
+.functionSpan:hover {
+    cursor: pointer;
+    background-color: rgb(0, 175, 255, .6);
 }
 
 #valueShower {

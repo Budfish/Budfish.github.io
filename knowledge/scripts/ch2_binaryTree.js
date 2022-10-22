@@ -14,6 +14,7 @@ const halfGap = nodeGap / 1.6;
 const halfWidth = nodeWidth / 2;
 const rem = parseFloat($('body').css('font-size'));
 const globalShift = parseFloat($(treeArea).css("width")) / rem / 2;
+const bottomAreaBias = $(bottomArea).position();
 const code_GetHeight =
     `function GetHeight(node){
     if(!node) return 0;
@@ -170,7 +171,9 @@ class CodeFactory {
         $(bottomArea).html("");
         this.GetHeight(treeFactory.root, null);
         this.ListenHoverVariables();
+        this.ListenFunctionSpan();
         this.ListenWindowHeader();
+        $("#fw_").addClass("show");
     }
     GetHeight(node, parent, lr = 0) {
         // lr: 0->l, 1->r;
@@ -254,6 +257,25 @@ class CodeFactory {
             _node.removeClass("show");
         })
     }
+    ListenFunctionSpan() {
+        let fcSpans = $(".functionSpan");
+        $.each(fcSpans, (_, elm) => {
+            let _elm = $(elm);
+            let fwid = _elm.attr("fwid");
+            let _fw = $(`#fw${fwid}`);
+            _elm.click((e) => {
+                let biasX = $(e.target).offset().left;
+                let biasY = $(e.target).offset().top;
+                if (!_fw.hasClass("show")) {
+                    _fw.css({
+                        left: biasX - bottomAreaBias["left"] + 6 * rem,
+                        top: biasY - bottomAreaBias["top"],
+                    })
+                }
+                _fw.toggleClass("show");
+            })
+        })
+    }
     ListenWindowHeader() {
         $.each($(".functionWindow .header"), (_, elm) => {
             let _elm = $(elm);
@@ -267,9 +289,10 @@ class Code_GetHeightFactory {
     constructor() { }
     EarlyReturn(fwid, parent, lr) {
         let nodeReplace = `<span nodeid="${parent.id + (lr ? "r" : "l")}" class="variable node">node</span>`;
+        let HeadGetHeightReplace = `<span fwid="${fwid}" class="functionSpan">GetHeight</span>`
         let str = `
         <p>function GetHeight(node){</p>
-        <p> &nbsp&nbsp&nbsp&nbspif(!node) return 0;</p>`.replace(/\bnode\b/g, nodeReplace);
+        <p> &nbsp&nbsp&nbsp&nbspif(!node) return 0;</p>`.replace(/\bnode\b/g, nodeReplace).replace(/\bGetHeight\b/g, HeadGetHeightReplace);
         str += `
         <p class="gray"> &nbsp&nbsp&nbsp&nbsplet L_height = GetHeight(node.left);</p>
         <p class="gray"> &nbsp&nbsp&nbsp&nbsplet R_height = GetHeight(node.right);</p>
@@ -282,6 +305,9 @@ class Code_GetHeightFactory {
         let nodeReplace = `<span nodeid="${node.id}" class="variable node">node</span>`;
         let leftReplace = `<span nodeid="${node.id}l" class="variable node">left</span>`;
         let L_heightReplace = `<span id="lh0${fwid}" class="variable">L_height</span>`;
+        let GetHeightReplace = `<span fwid="${fwid}l" class="functionSpan">GetHeight</span>`
+        let HeadGetHeightReplace = `<span fwid="${fwid}" class="functionSpan">GetHeight</span>`
+        let firstGetHeight = true;
         let str = `
         <p>function GetHeight(node){</p>
         <p> &nbsp&nbsp&nbsp&nbspif(!node) return 0;</p>
@@ -289,6 +315,13 @@ class Code_GetHeightFactory {
         str = str.replace(/\bnode\b/g, nodeReplace);
         str = str.replace(/\bleft\b/g, leftReplace);
         str = str.replace(/\bL_height\b/g, L_heightReplace);
+        str = str.replace(/\bGetHeight\b/g, (a, b) => {
+            if (firstGetHeight) {
+                firstGetHeight = false;
+                return HeadGetHeightReplace;
+            }
+            return GetHeightReplace;
+        });
         $(`#fta${fwid}`).append(str);
     }
     UpdateLine_1(fwid, node, L_height) {
@@ -296,10 +329,12 @@ class Code_GetHeightFactory {
         let nodeReplace = `<span nodeid="${node.id}" class="variable node">node</span>`;
         let rightReplace = `<span nodeid="${node.id}r" class="variable node">right</span>`;
         let R_heightReplace = `<span id="rh0${fwid}" class="variable">R_height</span>`;
+        let GetHeightReplace = `<span fwid="${fwid}r" class="functionSpan">GetHeight</span>`
         let str = `<p> &nbsp&nbsp&nbsp&nbsplet R_height = GetHeight(node.right);</p>`;
         str = str.replace(/\bnode\b/g, nodeReplace);
         str = str.replace(/\bright\b/g, rightReplace);
         str = str.replace(/\bR_height\b/g, R_heightReplace);
+        str = str.replace(/\bGetHeight\b/g, GetHeightReplace);
         $(`#fta${fwid}`).append(str);
     }
     UpdateLine_2(fwid, L_height, R_height) {
@@ -325,6 +360,7 @@ class DragWindowFactory {
     constructor() {
         $(bottomArea).on("mousedown", (e) => {
             this._window = $(`#fw${moveWindowId}`);
+            if (!this._window[0]) return;
             let bias = this._window.position();
             this.biasY = e.clientY - bias['top'];
             this.biasX = e.clientX - bias['left'];
@@ -359,6 +395,10 @@ let dragFactory = new DragWindowFactory();
 treeFactory.Init();
 
 $("#runCode").click((e) => {
+    if ($(bottomArea).html()) {
+        $("#fw_").addClass("show");
+        return;
+    }
     codeFactory.RunGetHeight();
 })
 $(resetTreeBtn).click((e) => {
