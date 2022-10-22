@@ -24,6 +24,7 @@ const code_GetHeight =
 }`;
 let resettingTree = false;
 let allNode = [];
+let moveWindowId = null;
 
 // classes
 class TreeNode {
@@ -169,6 +170,7 @@ class CodeFactory {
         $(bottomArea).html("");
         this.GetHeight(treeFactory.root, null);
         this.ListenHoverVariables();
+        this.ListenWindowHeader();
     }
     GetHeight(node, parent, lr = 0) {
         // lr: 0->l, 1->r;
@@ -195,8 +197,12 @@ class CodeFactory {
         return ans;
     }
     CreateFunctionWindow(fwid) {
-        let fwStr = `<div id="fw${fwid}" style="top:${this.ct}rem" class="functionWindow"><div id="fta${fwid}" class="functionTextArea"></div></div>`;
-        this.ct += 12;
+        let fwStr =
+            `<div id="fw${fwid}" style="top:${this.ct}rem" class="functionWindow">
+            <div id="hd${fwid}" class="header"></div>
+            <div id="fta${fwid}" class="functionTextArea"></div>
+            </div>`;
+        this.ct += 2;
 
         $(bottomArea).append(fwStr);
     }
@@ -246,6 +252,14 @@ class CodeFactory {
         })
         _elm.mouseout(() => {
             _node.removeClass("show");
+        })
+    }
+    ListenWindowHeader() {
+        $.each($(".functionWindow .header"), (_, elm) => {
+            let _elm = $(elm);
+            _elm.on("mousedown", (e) => {
+                moveWindowId = _elm.attr("id").replace("hd", "");
+            })
         })
     }
 }
@@ -307,6 +321,30 @@ class Code_GetHeightFactory {
         $(`#fta${fwid}`).append(str);
     }
 }
+class DragWindowFactory {
+    constructor() {
+        $(bottomArea).on("mousedown", (e) => {
+            this._window = $(`#fw${moveWindowId}`);
+            let bias = this._window.position();
+            this.biasY = e.clientY - bias['top'];
+            this.biasX = e.clientX - bias['left'];
+
+        })
+        $(bottomArea).mousemove((e) => {
+            if (!moveWindowId) return;
+            this.MoveWindow(e);
+        })
+        $(document).on("mouseup", (e) => {
+            moveWindowId = null;
+        })
+    }
+    MoveWindow(e) {
+        this._window.css({
+            "top": e.clientY - this.biasY,
+            "left": e.clientX - this.biasX,
+        })
+    }
+}
 
 function max(a, b) {
     if (a > b) return a;
@@ -317,6 +355,7 @@ function max(a, b) {
 $("#userCode").val(code_GetHeight);
 let treeFactory = new TreeNodeFactory();
 let codeFactory = new CodeFactory();
+let dragFactory = new DragWindowFactory();
 treeFactory.Init();
 
 $("#runCode").click((e) => {
