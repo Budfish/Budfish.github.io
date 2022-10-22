@@ -156,6 +156,7 @@ class CodeFactory {
         this.ct = 0;
         $(bottomArea).html("");
         this.GetHeight(treeFactory.root, null);
+        this.ListenHoverVariables();
     }
     GetHeight(node, parent, lr = 0) {
         // lr: 0->l, 1->r;
@@ -186,6 +187,18 @@ class CodeFactory {
         this.ct += 12;
 
         $(bottomArea).append(fwStr);
+    }
+    ListenHoverVariables() {
+        let variables = $('.variable');
+        $.each(variables, (_, varelm) => {
+            $(varelm).click((e) => {
+                if ($(varelm).hasClass("node")) {
+
+                } else {
+                    console.log($(varelm).attr("val"));
+                }
+            })
+        })
     }
     Cutfwdid() {
         this.fwid = this.fwid.substring(0, this.fwid.length - 1);
@@ -234,8 +247,9 @@ class Code_GetHeightFactory {
     }
     UpdateLine_2(fwid, L_height, R_height) {
         $(`#rh0${fwid}`).attr("val", R_height);
-        let ansReplace = `<span  val="${max(L_height + R_height) + 1}" class="variable node">ans</span>`;
-        let L_heightReplace = `<span val="${L_height}" class="variable node">L_height</span>`;
+        let ans = max(L_height, R_height) + 1;
+        let ansReplace = `<span  val="${ans}" class="variable">ans</span>`;
+        let L_heightReplace = `<span val="${L_height}" class="variable">L_height</span>`;
         let R_heightReplace = `<span val="${R_height}" class="variable">R_height</span>`;
         let str = `<p> &nbsp&nbsp&nbsp&nbsplet ans = max(L_height,R_height)+1;</p>`;
         str = str.replace(/\bans\b/g, ansReplace);
@@ -244,7 +258,7 @@ class Code_GetHeightFactory {
         $(`#fta${fwid}`).append(str);
     }
     UpdateLine_3(fwid, ans) {
-        let ansReplace = `<span  val="${ans}" class="variable node">ans</span>`;
+        let ansReplace = `<span  val="${ans}" class="variable">ans</span>`;
         let str = `<p> &nbsp&nbsp&nbsp&nbspreturn ans;</p><p>}</p>`;
         str = str.replace(/\bans\b/g, ansReplace);
         $(`#fta${fwid}`).append(str);
