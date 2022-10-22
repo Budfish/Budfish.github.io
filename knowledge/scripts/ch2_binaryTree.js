@@ -7,6 +7,8 @@ const stageHeight = 3;
 // variables
 const treeArea = $("#treeArea")[0];
 const bottomArea = $("#bottomArea")[0];
+const resetTreeBtn = $("#resetTreeBtn")[0];
+const valueShower = $("#valueShower");
 const line = $(".line")[0];
 const halfGap = nodeGap / 1.6;
 const halfWidth = nodeWidth / 2;
@@ -20,6 +22,7 @@ const code_GetHeight =
     let ans = max(L_height,R_height) + 1;
     return ans;
 }`;
+let resettingTree = false;
 let allNode = [];
 
 // classes
@@ -63,18 +66,27 @@ class TreeNodeFactory {
         this.num = 0;
     }
     Init() {
-        let self = this;
-        this.root = new TreeNode(this.num++, self);
+        $(treeArea).html("");
+        this.num = 0;
+        this.root = new TreeNode(this.num++, this);
         this.Update();
     }
-    Update() {
-        this.UpdateNodes(this.root);
+    Reset() {
+        resettingTree = true;
+        $(resetTreeBtn).addClass("update");
+        this.Init();
+        $(bottomArea).html("");
+        setTimeout(() => {
+            $(resetTreeBtn).removeClass("update");
+            resettingTree = false;
+        }, 1000);
     }
-    UpdateNodes(node) {
-        this.UpdateBandWidth(node);
-        this.RefreshHorizontal(node);
-        this.CreateLine(node);
-        this.RemoveAddButton(node);
+    Update() {
+        $(bottomArea).html("");
+        this.UpdateBandWidth(this.root);
+        this.RefreshHorizontal(this.root);
+        this.CreateLine(this.root);
+        this.RemoveAddButton(this.root);
     }
     UpdateBandWidth(node) {
         if (!node) return;
@@ -188,26 +200,57 @@ class CodeFactory {
 
         $(bottomArea).append(fwStr);
     }
-    ListenHoverVariables() {
-        let variables = $('.variable');
-        $.each(variables, (_, varelm) => {
-            $(varelm).click((e) => {
-                if ($(varelm).hasClass("node")) {
-
-                } else {
-                    console.log($(varelm).attr("val"));
-                }
-            })
-        })
-    }
     Cutfwdid() {
         this.fwid = this.fwid.substring(0, this.fwid.length - 1);
     }
+    ListenHoverVariables() {
+        let variables = $('.variable');
+        $.each(variables, (_, varelm) => {
+            let _varelm = $(varelm);
+            if (_varelm.hasClass("node")) {
+                this.ListenNode(_varelm);
+            } else {
+                this.ListenNumber(_varelm);
+            }
+        })
+    }
+    ListenNumber(_elm) {
+        _elm.mouseenter(() => {
+            valueShower.html(_elm.attr("val"));
+            valueShower.addClass("show");
+        })
+        _elm.mousemove((e) => {
+            valueShower.css({
+                "top": e.clientY - 2 * rem - 5,
+                "left": e.clientX + 5,
+            })
+        })
+        _elm.mouseout(() => {
+            valueShower.removeClass("show");
+            valueShower.html("");
+        })
+    }
+    ListenNode(_elm) {
+        let nodeid = _elm.attr("nodeid");
+        let node = $(`#${nodeid}`)[0];
+        let _node = null;
+        if (node) {
+            _node = $($(node).children(".node")[0]);
+        } else {
+            let lr = nodeid[nodeid.length - 1] == "l" ? "left" : "right";
+            nodeid = nodeid.substring(0, nodeid.length - 1);
+            _node = $($(`#${nodeid}`).children(`.add.${lr}`)[0]);
+        }
+        _elm.mouseenter(() => {
+            _node.addClass("show");
+        })
+        _elm.mouseout(() => {
+            _node.removeClass("show");
+        })
+    }
 }
 class Code_GetHeightFactory {
-    constructor() {
-
-    }
+    constructor() { }
     EarlyReturn(fwid, parent, lr) {
         let nodeReplace = `<span nodeid="${parent.id + (lr ? "r" : "l")}" class="variable node">node</span>`;
         let str = `
@@ -271,6 +314,7 @@ function max(a, b) {
 }
 
 // initialization
+$("#userCode").val(code_GetHeight);
 let treeFactory = new TreeNodeFactory();
 let codeFactory = new CodeFactory();
 treeFactory.Init();
@@ -278,4 +322,8 @@ treeFactory.Init();
 $("#runCode").click((e) => {
     codeFactory.RunGetHeight();
 })
-$("#userCode").val(code_GetHeight);
+$(resetTreeBtn).click((e) => {
+    if (!resettingTree) {
+        treeFactory.Reset();
+    }
+})

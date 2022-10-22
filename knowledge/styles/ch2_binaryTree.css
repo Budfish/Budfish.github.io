@@ -31,6 +31,10 @@ body {
     background: linear-gradient(135deg, rgba(100, 255, 203, 0.3), rgba(100, 255, 255, 0.3));
 }
 
+p {
+    cursor: default;
+}
+
 textarea {
     border: 0;
 }
@@ -94,9 +98,15 @@ textarea:focus {
     margin-right: 1rem;
 }
 
-#treeArea {
+#toprightArea {
+    position: relative;
     width: 250%;
     margin-left: 1rem;
+}
+
+#treeArea {
+    width: 100%;
+    height: 100%;
 }
 
 #bottomArea {
@@ -105,8 +115,20 @@ textarea:focus {
 
 
 /* Tree呈現相關 */
+#resetTreeBtn {
+    position: absolute;
+    top: 0.5rem;
+    right: 1.5rem;
+    transform: rotate(0deg);
+}
+
+#resetTreeBtn.update {
+    transform: rotate(360deg);
+    transition: transform 300ms;
+}
+
 #treeArea {
-    position: relative;
+    position: absolute;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -122,11 +144,16 @@ textarea:focus {
     text-align: center;
     line-height: 2rem;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     width: 2rem;
     height: 2rem;
     position: absolute;
+    transition: background-color 200ms;
     z-index: 10;
+}
+
+#treeArea .node.show {
+    background-color: rgb(255, 255, 0);
 }
 
 .line {
@@ -141,7 +168,6 @@ textarea:focus {
 .add {
     width: 1rem;
     height: 1rem;
-    background-color: yellow;
     border-radius: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
@@ -149,11 +175,17 @@ textarea:focus {
     cursor: pointer;
     z-index: 20;
     opacity: 0;
-    transition: opacity 300ms;
+    transition: opacity 300ms, background-color 300ms;
+}
 
+.add.show {
+    background-color: transparent;
+    border: 2px dashed gray;
+    opacity: 1;
 }
 
 .add:hover {
+    background-color: yellow;
     opacity: .75;
 }
 
@@ -208,4 +240,22 @@ i {
 
 .variable:hover {
     background-color: rgba(255, 255, 0, 0.6);
+}
+
+#valueShower {
+    position: fixed;
+    padding: 5px 15px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    border: 2px solid black;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .4);
+    font-family: monospace;
+    z-index: 30;
+    transform: scaleY(0);
+    transition: transform 120ms;
+}
+
+#valueShower.show {
+    transform: scaleY(1);
 }

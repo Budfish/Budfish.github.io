@@ -15,17 +15,12 @@
 </head>
 
 <body>
+    <div id="valueShower">30</div>
     <div id="workBench">
         <div id="topArea">
             <div id="textArea">
                 <div id="textFunctionArea">
-                    <span>
-                        <i class="fa-solid fa-backward-step"></i>
-                    </span>
-                    <span>
-                        <i class="fa-solid fa-forward-step"></i>
-                    </span>
-                    <span id="runCode">
+                    <span id="runCode" style="align-self: flex-end;">
                         <i class="fa-solid fa-play"></i>
                     </span>
 
@@ -33,7 +28,13 @@
                 <textarea id="userCode" name="" id="" cols="30" rows="10" placeholder="function recursion(){}"
                     disabled></textarea>
             </div>
-            <div id="treeArea" class="lightArea"></div>
+            <div id="toprightArea">
+                <div id="treeArea" class="lightArea"></div>
+
+                <span id="resetTreeBtn">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </span>
+            </div>
         </div>
         <div id="bottomArea" class="lightArea">
         </div>
