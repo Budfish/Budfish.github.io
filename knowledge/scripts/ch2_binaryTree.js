@@ -10,7 +10,6 @@ const bottomArea = $("#bottomArea")[0];
 const resetTreeBtn = $("#resetTreeBtn")[0];
 const valueShower = $("#valueShower");
 const line = $(".line")[0];
-const halfGap = nodeGap / 1.6;
 const halfWidth = nodeWidth / 2;
 const rem = parseFloat($('body').css('font-size'));
 const globalShift = parseFloat($(treeArea).css("width")) / rem / 2;
@@ -24,7 +23,6 @@ const code_GetHeight =
     return ans;
 }`;
 let resettingTree = false;
-let allNode = [];
 let moveWindowId = null;
 
 // classes
@@ -41,7 +39,6 @@ class TreeNode {
         this.id = id;
         this.CreateNodeElement();
         this.factory = factory;
-        allNode.push(this);
     }
     CreateNodeElement() {
         let elementStr = `
