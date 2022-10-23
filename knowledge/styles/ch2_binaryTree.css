@@ -191,7 +191,7 @@ textarea:focus {
 
 .add.clickMe {
     background-color: yellow;
-    animation: ClickMe 2s infinite linear;
+    animation: ClickMe 1.2s infinite linear;
 }
 
 @keyframes ClickMe {
