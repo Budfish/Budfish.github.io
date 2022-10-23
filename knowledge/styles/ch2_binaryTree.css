@@ -189,6 +189,29 @@ textarea:focus {
     opacity: .75;
 }
 
+.add.clickMe {
+    background-color: yellow;
+    animation: ClickMe 2s infinite linear;
+}
+
+@keyframes ClickMe {
+    0% {
+        opacity: .1;
+    }
+
+    30% {
+        opacity: .9;
+    }
+
+    60% {
+        opacity: .1;
+    }
+
+    100% {
+        opacity: .1;
+    }
+}
+
 /* coding 相關 */
 #textFunctionArea {
     color: rgb(0, 0, 0, 1);
