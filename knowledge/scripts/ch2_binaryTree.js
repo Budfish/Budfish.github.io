@@ -70,7 +70,7 @@ class TreeNodeFactory {
         this.num = 0;
         this.root = new TreeNode(this.num++, this);
         this.Update();
-        if (!hasAddNode) $($('.add')[0]).addClass("clickMe");
+        if (!hasAddNode) $('.add').addClass("clickMe");
     }
     Reset() {
         resettingTree = true;
@@ -141,6 +141,7 @@ class TreeNodeFactory {
         this.RemoveAddButton(node.right);
     }
     AddNode(nodeId, type) {
+        if (!hasAddNode) $('.add').removeClass("clickMe");
         hasAddNode = true;
         nodeId = $(nodeId).attr("id")
         let node = this.GetNodeById(this.root, nodeId);
