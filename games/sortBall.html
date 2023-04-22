@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #container {
+            border: 1px solid black;
+        }
+
+        .containerrow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 50px;
+        }
+
+        .sortbox {
+            width: 50px;
+            height: 250px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column-reverse;
+            align-items: center;
+        }
+
+        .ball {
+            border-radius: 50%;
+            border: 1px solid black;
+            width: 40px;
+            height: 40px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ball.activate {
+            animation: floatAnime;
+            animation-duration: 0.8s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes floatAnime {
+            0% {
+                translate: 0 0;
+            }
+
+            70% {
+                translate: 0 -10px;
+            }
+
+            100% {
+                translate: 0 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+</body>
+<script>
+    const COLUMN_COUNT = 7;
+    const COLORS = ["red", "yellow", "blue", "green"];
+    const container = document.getElementById("container");
+    let ballCount = 0;
+    let sortBoxCount = 0;
+    let currentBall = null;
+    init();
+
+    function init() {
+        addRow(); addRow();
+    }
+    function addRow(count = COLUMN_COUNT) {
+        let row = createElement("div", {
+            class: "containerrow"
+        })
+        for (let i = 0; i < count; i++) addSortBox(row);
+        container.appendChild(row);
+    }
+    function addSortBox(parent = null) {
+        parent = parent || container;
+        let sortBox = createElement("div", {
+            class: "sortbox", id: `sortbox-${++sortBoxCount}`, onclick: "clickBox(event)"
+        })
+        let toAddBall = sortBoxCount % COLUMN_COUNT != 0;
+        if (toAddBall) {
+            for (let i = 0; i < 4; i++) addBall();
+        }
+        parent.appendChild(sortBox);
+
+        function addBall() {
+            let ball = createElement("div", {
+                class: "ball", id: `ball-${++ballCount}`, onclick: "clickBall(event)"
+            })
+            ball.innerHTML = ballCount;
+            sortBox.appendChild(ball);
+        }
+    }
+    function createElement(tagName, attrs) {
+        attrs = attrs || {};
+        let elm = document.createElement(tagName);
+        Object.keys(attrs).forEach(attr => {
+            elm.setAttribute(attr, attrs[attr]);
+        })
+        return elm;
+    }
+    function clickBall(e) {
+        const ball = e.srcElement;
+        const classes = getClasses(ball);
+        if (classes.includes("ball")) clickBox(e, ball.parentElement);
+    }
+    function clickBox(e, _box = null) {
+        const box = _box || e.srcElement;
+        const classes = getClasses(box);
+        if (!classes.includes("sortbox")) return;
+        let ball = box.lastChild;
+        if (currentBall) {
+            box.appendChild(currentBall);
+            currentBall.setAttribute("class", "ball")
+            currentBall = null;
+        } else {
+            ball.setAttribute("class", "ball activate")
+            currentBall = ball;
+        }
+    }
+    function clickScreen(e) {
+        console.log("outside");
+        console.log(e);
+    }
+    function getClasses(elm) {
+        return elm.className.split(" ");
+    }
+
+</script>
+
+</html>
