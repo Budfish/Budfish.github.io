@@ -69,16 +69,19 @@
     <div id="container"></div>
 </body>
 <script>
-    const COLUMN_COUNT = 7;
+    const COLUMN_COUNT = 6;
     const COLORS = ["red", "yellow", "blue", "green"];
     const container = document.getElementById("container");
     let ballCount = 0;
     let sortBoxCount = 0;
     let currentBall = null;
+    let ballColor = {};
     init();
 
     function init() {
         addRow(); addRow();
+        addCancelSelectEvent();
+        addBallColor();
     }
     function addRow(count = COLUMN_COUNT) {
         let row = createElement("div", {
@@ -90,7 +93,7 @@
     function addSortBox(parent = null) {
         parent = parent || container;
         let sortBox = createElement("div", {
-            class: "sortbox", id: `sortbox-${++sortBoxCount}`, onclick: "clickBox(event)"
+            class: "sortbox", id: `sortbox-${++sortBoxCount}`, onclick: "clickBox(this,event)"
         })
         let toAddBall = sortBoxCount % COLUMN_COUNT != 0;
         if (toAddBall) {
@@ -100,7 +103,7 @@
 
         function addBall() {
             let ball = createElement("div", {
-                class: "ball", id: `ball-${++ballCount}`, onclick: "clickBall(event)"
+                class: "ball", id: `ball-${++ballCount}`
             })
             ball.innerHTML = ballCount;
             sortBox.appendChild(ball);
@@ -114,15 +117,9 @@
         })
         return elm;
     }
-    function clickBall(e) {
-        const ball = e.srcElement;
-        const classes = getClasses(ball);
-        if (classes.includes("ball")) clickBox(e, ball.parentElement);
-    }
-    function clickBox(e, _box = null) {
-        const box = _box || e.srcElement;
+    function clickBox(box, event) {
+        event.stopPropagation();
         const classes = getClasses(box);
-        if (!classes.includes("sortbox")) return;
         let ball = box.lastChild;
         if (currentBall) {
             box.appendChild(currentBall);
@@ -133,12 +130,36 @@
             currentBall = ball;
         }
     }
+    function addCancelSelectEvent() {
+        const body = document.getElementsByTagName("body")[0];
+        body.addEventListener("click", e => clickScreen(e));
+    }
     function clickScreen(e) {
-        console.log("outside");
-        console.log(e);
+        currentBall.setAttribute("class", "ball")
+        currentBall = null;
     }
     function getClasses(elm) {
         return elm.className.split(" ");
+    }
+    function getBallColor(groupNo) {
+        if (ballColor[groupNo]) return ballColor[groupNo];
+        const p = [1, 3, 9];
+        const c = [0, 170, 255];
+        let colorCode = [];
+        for (let i = 0; i < 3; i++) {
+            const factor = (groupNo / p[i] | 0) % 3;
+            colorCode.push(c[factor]);
+        }
+        return ballColor[groupNo] = `rgba(${colorCode[0]},${colorCode[1]},${colorCode[2]},1)`;
+    }
+    function addBallColor() {
+        const balls = document.querySelectorAll(".ball");
+        for (let i = 0; i < balls.length; i++) {
+            const ball = balls[i];
+            const groupNo = Math.random() * 27 | 0;
+            ball.setAttribute("data-group", groupNo);
+            ball.setAttribute("style", `background-color:${getBallColor(groupNo)};`);
+        }
     }
 
 </script>
